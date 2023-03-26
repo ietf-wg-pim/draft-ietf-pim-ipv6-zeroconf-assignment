@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="rfc7991bis.rnc"?>
+<!DOCTYPE rfc [
+  <!ENTITY nbsp "&#160;">
+]>
 <?rfc toc="yes"?>
 <?rfc tocompact="yes"?>
 <?rfc tocdepth="3"?>
@@ -10,7 +13,7 @@
 <?rfc inline="yes"?>
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
-<rfc category="info" docName="draft-karstens-pim-ipv6-zeroconf-assignment-00" updates="" ipr="trust200902" submissionType="IETF">
+<rfc category="info" docName="draft-karstens-pim-ipv6-zeroconf-assignment-01" updates="" ipr="trust200902" submissionType="IETF">
 
   <front>
     <title abbrev="Zeroconf Assignment of IPv6 Mcast Addrs">Zero-Configuration Assignment of IPv6 Multicast Addresses</title>
@@ -39,24 +42,24 @@
       </address>
     </author>
 
-    <date day="23" month="October" year="2022"/>
+    <date day="26" month="March" year="2023"/>
 
     <abstract>
-      <t>Marine networks contain a combination of sensors, controls, and displays. The latest marine industry standards require IPv6. The most optimal way to distribute sensor data to all displays on the network is multicast. However, use of traditional switches can be problematic (overwhelm links) when both high-bandwidth and low-bandwidth devices are installed. To solve this problem, the network requires switches with multicast snooping. However, source-specific multicast (SSM) is not supported on marine switches so the destination address is the only way to differentiate multicast streams. This limitation creates several challenges including with the pre-allocation of addresses. The solution, described in this draft, provides a decentralized, zero-configuration method for dynamically assigning multicast addresses through defining an extension to the multicast portion of the IPv6 addressing architecture along with a new IANA registry.</t>
+      <t>Marine networks contain a combination of sensors, controls, and displays. The latest marine industry standards require IPv6. The most optimal way to distribute sensor data to all displays on the network is multicast. However, use of traditional switches can be problematic (overwhelm links) when both high-bandwidth and low-bandwidth devices are installed. To solve this problem, the network requires switches with multicast snooping. However, source-specific multicast (SSM) is not supported on marine switches so the destination address is the only way to differentiate multicast streams. This limitation creates several challenges including with the pre-allocation of multicast group addresses. The solution, described in this draft, provides a decentralized, zero-configuration method for dynamically assigning multicast group addresses through defining an extension to the multicast portion of the IPv6 addressing architecture along with a new table in the IPv6 Multicast Address Space Registry.</t>
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
-      <t>Marine networks contain a combination of sensors, controls, and displays. Installations vary widely depending on the design and intended purpose of the boat and the amount of redundancy required. Sensors on these networks can be a mix of low-cost, low-bandwidth devices, like temperature or fluid sensors, and high-bandwidth devices, like radar, sonar, and video cameras. In most cases these networks use a single subnet. The latest marine industry standards require IPv6.</t>
+      <t>Marine networks contain a combination of sensors, controls, and displays. Installations vary widely depending on the design and intended purpose of the boat and the amount of redundancy required. Sensors on these networks can be a mix of low-cost, low-bandwidth devices, like temperature or fluid sensors, and high-bandwidth devices, like radar, sonar, and video cameras. In most cases these networks use a single subnet and therefore require layer-2 switches to be deployed. The latest marine industry standards require IPv6.</t>
 
       <t>The most optimal way to distribute sensor data to all displays on the network is multicast. However, use of traditional switches can be problematic when both high-bandwidth and low-bandwidth devices are installed. Low-bandwidth devices are commonly designed with a low-speed link to reduce cost, and the multicast stream from the high-bandwidth device can overwhelm this link. To solve this problem, the network requires switches with multicast snooping <xref target="RFC4541"/>, which directs multicast streams only to the ports leading to devices that request the data.</t>
 
-      <t>Switch parts at the required price point do not support source-specific multicast, so the destination address is the only way to differentiate multicast streams. This presents several challenges. First, defining an industry standard set of pre-allocated addresses is not practical due to the wide variety of network designs. Users in the marine industry would not find static assignment to be acceptable. MADCAP <xref target="RFC2730"/> could be used to dynamically assign addresses, but its reliance on a dedicated server results in a single point of failure for the system, which is not acceptable in the marine environment.</t>
+      <t>Low-end switch hardware at low price points do not support source-specific multicast, so the destination address is the only way to differentiate multicast streams. This presents several challenges. First, defining an industry standard set of pre-allocated addresses is not practical due to the wide variety of network designs. Users in the marine industry would not find static assignment to be acceptable. MADCAP <xref target="RFC2730"/> could be used to dynamically assign addresses, but its reliance on a dedicated server results in a single point of failure for the system, which is not acceptable in the marine environment.</t>
 
-      <t>The solution, proposed in this draft, is a decentralized, zero-configuration method for dynamically assigning multicast addresses. This document defines an extension to the multicast portion of the IPv6 addressing architecture <xref target="RFC4291"/>. The current architecture does not account for potential address collisions when IPv6 multicast packets are transmitted on the data link layer. This extension defines a collision detection mechanism that utilizes Multicast DNS <xref target="RFC6762"/> to distribute a database of dynamically assigned multicast Ethernet addresses.</t>
+      <t>The solution, proposed in this draft, is a decentralized, zero-configuration method for dynamically assigning multicast addresses. This document defines an extension to the multicast portion of the IPv6 addressing architecture <xref target="RFC4291"/>. The current architecture does not account for potential address collisions when IPv6 multicast packets are transmitted on the data link layer. This extension defines a collision detection mechanism that utilizes Multicast&nbsp;DNS&nbsp;<xref target="RFC6762"/> to distribute a database of dynamically assigned multicast Ethernet addresses.</t>
 
-      <t>It also proposes a new IANA registry based on amendments to <xref target="RFC3307" sectionFormat="of" section="4.3"/>. This will allow for different methods of dynamically allocating IPv6 multicast addresses to coexist on the same network.</t>
+      <t>It also proposes a new table in the IANA IPv6 Multicast Address Space Registry based on amendments to <xref target="RFC3307" sectionFormat="of" section="4.3"/>. This will allow for different methods of dynamically allocating IPv6 multicast addresses to coexist on the same network.</t>
 
       <section anchor="requirements">
         <name>Requirements Language</name>
@@ -76,31 +79,35 @@
     </section>
 
     <section title="Design Goals">
-      <t>The primary goal is to define a zero-configuration method for dynamically assigning IPv6 multicast addresses and preventing collisions at the Ethernet layer. This method must allow for multiple streams to be transmitted from the same host by different applications that are not cooperating.</t>
+      <t>The primary goal is to define a zero-configuration method for dynamically assigning IPv6 multicast addresses and preventing collisions at the Ethernet layer. This method must allow for multiple streams to be transmitted from the same host by different applications that are not communicating through another channel.</t>
 
       <t>A secondary goal is to allow several methods for dynamically assigning IPv6 multicast addresses to coexist on the same network without user configuration.</t>
 
-      <t>Advertising the data contained in each multicast stream is outside the scope of this document.</t>
+      <t>Advertising the data contained in each multicast stream is discussed in <xref target="I-D.karstens-dnssd-dns-msd"/>.</t>
     </section>
 
     <section title="Method">
-      <t>When an application is preparing to transmit a multicast stream it generates a link-scoped IPv6 multicast address. The IID is set to the intended source address for the multicast stream. The group ID is a random value in the range reserved for mDNS-based dynamic IPv6 multicast address allocation algorithms (see below). The application then calculates the multicast Ethernet address that will be used to transmit the data <xref target="RFC2464" sectionFormat="comma" section="7"/> and generates a string akin to a reverse mapping domain using a new <tt>"eth-addr.arpa"</tt> special-use domain.</t>
+      <t>When an application is preparing to transmit a multicast stream it generates a link-scoped IPv6 multicast address <xref target="RFC4489"/>. The Interface Identifier (IID) part of this address is taken from the intended source address for the multicast stream. The group ID is a random value in the range reserved for mDNS-based dynamic IPv6 multicast address allocation algorithms (see below). The application then calculates the multicast Ethernet address that will be used to transmit the data <xref target="RFC2464" sectionFormat="comma" section="7"/> and generates a string akin to a reverse mapping domain using a new <tt>"eth-addr.arpa"</tt> special-use domain.</t>
 
       <t>For example, given a source address of <tt>FE80::A12:34FF:FE56:7890</tt>, the IPv6 multicast address may be <tt>FF32:00FF:A12:34FF:FE56:7890:CFED:2468</tt>, the multicast Ethernet address <tt>33:33:CF:ED:24:68</tt>, and the string <tt>"8.6.4.2.d.e.f.c.3.3.3.3.eth-addr.arpa"</tt>.</t>
 
-      <t>The application then uses the mDNS probing algorithm described in <xref target="RFC6762" sectionFormat="comma" section="8.1"/> to continuously query for a PTR record with the generated string for the name. If the probing algorithm completes without any conflict, then the application begins advertising its own PTR record using that name. The <tt>PTRDNAME</tt> field is the concatenation of the device's host name, the colon character (<tt>:</tt>), and the source port of the multicast stream. Integrating the source port in this manner allows for multiple applications to be on the same host. It may then begin transmitting multicast data using that address.</t>
+      <t>The application then uses the mDNS probing algorithm described in <xref target="RFC6762" sectionFormat="comma" section="8.1"/> to continuously query for a PTR record with the generated string for the name. If the probing algorithm completes without any conflict, then the application begins advertising its own PTR record using that name. The <tt>PTRDNAME</tt> field consists of a unique application identifier, in the form of a DNS label, followed by the device's host name (for example, "application.example.local.". Integrating a unique identifier in this manner allows for multiple applications to be on the same host.</t>
 
-      <t>The application should retain the group ID value in long-term storage and use it the next time the multicast stream is transmitted.</t>
+      <t>Once the PTR record is advertised, the host may then begin transmitting multicast data using the generated address.</t>
+
+      <t>The application shall retain the group ID value and use it the next time the multicast stream is transmitted. This allows the network to quickly settle on a configuration that will never have another collision as long as the network is unchanged.</t>
 
       <t>If at any point the query returns a result from a different host, then the application stops transmitting that multicast stream and start the process over using a different group ID.</t>
 
       <t>The host should monitor the bus for traffic that uses the same destination multicast Ethernet address, but a different destination multicast IPv6 address. If this is detected then the application acts as if the collision had been detected from the mDNS query.</t>
+
+      <t>While intended primarily for allocating IPv6 multicast addresses on the same subnet (link-local scope), the same technique could also apply to a larger network as long as mDNS traffic is routed between subnets (for any scope excluding global scope).</t>
     </section>
 
     <section title="IANA Considerations">
       <t>The special-use domain <tt>"eth-addr.arpa"</tt> should be registered in the .arpa registry (https://www.iana.org/domains/arpa) and the "Special-Use Domain Names" registry (https://www.iana.org/assignments/special-use-domain-names).</t>
 
-      <t>IANA should create a new registry of ranges for dynamic multicast group IDs that is based on the description in <xref target="RFC3307" sectionFormat="comma" section="4.3"/>. The registry should contain the following entries:</t>
+      <t>IANA should create a new table in the IPv6 Multicast Address Space Registry that contains ranges for dynamic multicast group IDs and is based on the description in <xref target="RFC3307" sectionFormat="comma" section="4.3"/>. The registry should initially contain the following entries:</t>
 
       <table>
         <tbody>
@@ -118,6 +125,8 @@
 
     <section title="Acknowledgement">
       <t>Special thanks to the National Marine Electronics Association for their contributions in developing marine industry standards and their support for this research.</t>
+
+      <t>Thanks also to the members of the PIM working group for their early brainstorming sessions and review of this draft.</t>
     </section>
   </middle>
 
@@ -133,6 +142,7 @@
       <?rfc include='reference.RFC.8174'?>
     </references>
     <references title="Informative References">
+      <?rfc include='reference.I-D.karstens-dnssd-dns-msd'?>
       <?rfc include='reference.RFC.2730'?>
     </references>
   </back>
