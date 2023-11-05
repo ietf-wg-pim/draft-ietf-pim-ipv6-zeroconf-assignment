@@ -16,7 +16,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-karstens-pim-ipv6-zeroconf-assignment-02"
+  docName="draft-ietf-pim-ipv6-zeroconf-assignment-00"
   ipr="trust200902"
   submissionType="IETF"
   consensus="true">
@@ -48,16 +48,16 @@
       </address>
     </author>
 
-    <date day="17" month="August" year="2023"/>
+    <date day="5" month="November" year="2023"/>
 
     <abstract>
-      <t>Describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses. Applications randomly assign multicast group IDs from a reserved range and prevent collisions by using mDNS to publish records in a new "eth-addr.arpa" special-use domain. This protocol satisfies all of the criteria listed in draft-karstens-pim-zeroconf-mcast-addr-alloc-ps.</t>
+      <t>Describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses. Applications randomly assign multicast group IDs from a reserved range and prevent collisions by using mDNS to publish records in a new "eth-addr.arpa" special-use domain. This protocol satisfies all of the criteria listed in draft-ietf-pim-zeroconf-mcast-addr-alloc-ps.</t>
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
-      <t><xref target="I-D.karstens-pim-zeroconf-mcast-addr-alloc-ps"/> includes a problem statement and requirements for a zero-configuration method for dynamically assigning multicast addresses. This document describes a process that fulfills these requirements by having applications randomly assign IPv6 multicast group IDs from a reserved range and using mDNS to prevent collisions.</t>
+      <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> includes a problem statement and requirements for a zero-configuration method for dynamically assigning multicast addresses. This document describes a process that fulfills these requirements by having applications randomly assign IPv6 multicast group IDs from a reserved range and using mDNS to prevent collisions.</t>
 
       <t>Once the IPv6 multicast address has been assigned, the data contained the multicast stream may be advertised using the method described in <xref target="I-D.karstens-dnssd-dns-msd"/>.</t>
 
@@ -86,7 +86,7 @@
     </section>
 
     <section title="Evaluation of Solution">
-      <t><xref target="I-D.karstens-pim-zeroconf-mcast-addr-alloc-ps"/> contains a list of criteria to evaluate potential solutions. The protocol described in this document satisfies all of the required criteria.</t>
+      <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> contains a list of criteria to evaluate potential solutions. The protocol described in this document satisfies all of the required criteria.</t>
 
       <t>However, because mDNS is designed to be a low-bandwidth protocol, it can take a signficant amount of time to detect a record collision after a network partition is repaired. This is not a concern on networks where all multicast streams are established before any likely partition event because all group IDs will have been selected and stored for future use.</t>
 
@@ -96,7 +96,7 @@
     </section>
 
     <section title="IANA Considerations" anchor="iana">
-      <t>IANA should allocate a block of group IDs from the "Dynamic Multicast Group IDs" registry in the "IPv6 Multicast Address Space Registry" registry group that was created by <xref target="I-D.karstens-pim-updt-ipv6-dyn-mcast-addr-grp-id"/>. The range of this block should be <tt>0x90000000-0x9FFFFFFF</tt> and the description should be the title of this document.</t>
+      <t>IANA should allocate a block of group IDs from the "Dynamic Multicast Group IDs" registry in the "IPv6 Multicast Address Space Registry" registry group that was created by <xref target="I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id"/>. The range of this block should be <tt>0x90000000-0x9FFFFFFF</tt> and the description should be the title of this document.</t>
 
       <t>The special-use domain <tt>"eth-addr.arpa"</tt> should be registered in the .arpa registry (https://www.iana.org/domains/arpa) and the "Special-Use Domain Names" registry (https://www.iana.org/assignments/special-use-domain-names). This domain should not be delegated.</t>
 
@@ -124,11 +124,11 @@
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6761.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6762.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
-      <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.karstens-pim-zeroconf-mcast-addr-alloc-ps.xml"/>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps.xml"/>
     </references>
     <references title="Informative References">
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8766.xml"/>
-      <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.karstens-pim-updt-ipv6-dyn-mcast-addr-grp-id.xml"/>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.karstens-dnssd-dns-msd.xml"/>
     </references>
   </back>
