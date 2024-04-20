@@ -1,0 +1,1 @@
+See [draft-ietf-pim-ipv6-zeroconf-assignment](https://datatracker.ietf.org/doc/draft-ietf-pim-ipv6-zeroconf-assignment/)
