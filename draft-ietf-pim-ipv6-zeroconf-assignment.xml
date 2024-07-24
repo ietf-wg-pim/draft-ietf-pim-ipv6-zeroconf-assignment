@@ -16,7 +16,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-ietf-pim-ipv6-zeroconf-assignment-01"
+  docName="draft-ietf-pim-ipv6-zeroconf-assignment-02"
   ipr="trust200902"
   submissionType="IETF"
   consensus="true">
@@ -48,7 +48,7 @@
       </address>
     </author>
 
-    <date day="8" month="May" year="2024"/>
+    <date day="23" month="July" year="2024"/>
 
     <abstract>
       <t>Describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses. Applications randomly assign multicast group IDs from a reserved range and prevent collisions by using mDNS to publish records in a new "eth-addr.arpa" special-use domain. This protocol satisfies all of the criteria listed in draft-ietf-pim-zeroconf-mcast-addr-alloc-ps.</t>
