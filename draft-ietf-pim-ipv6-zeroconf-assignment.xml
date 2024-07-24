@@ -83,6 +83,12 @@
       <t>The host may optionally monitor the bus for traffic that uses the same destination multicast Ethernet address, but a different destination multicast IPv6 address. If this is detected, then the application responds the same as a collision.</t>
 
       <t>While intended primarily for allocating IPv6 multicast addresses on the same subnet (link-local scope), the same technique could also apply to a larger network as long as mDNS traffic is routed between subnets (for any scope excluding global scope).</t>
+
+      <section title="Veto Records">
+        <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> describes collisions occurring in the network infrastructure. When an infrastructure component detects a collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name and the <tt>PTRDNAME</tt> field set to the string <tt>"veto"</tt>, formatted as a DNS label. The veto record is published without probing.</t>
+
+        <t>Applications respond to the conflict the same as to a collision. The application retains its new group ID, so the same conflict is not repeated in the future.</t>
+      </section>
     </section>
 
     <section title="Evaluation of Solution">
