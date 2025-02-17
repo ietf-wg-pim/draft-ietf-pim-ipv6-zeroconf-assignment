@@ -51,13 +51,15 @@
     <date day="16" month="February" year="2025"/>
 
     <abstract>
-      <t>Describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses. Applications randomly assign multicast group IDs from a reserved range and prevent collisions by using mDNS to publish records in a new "eth-addr.arpa" special-use domain. This protocol satisfies all of the criteria listed in draft-ietf-pim-zeroconf-mcast-addr-alloc-ps.</t>
+      <t>Describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses. Applications randomly assign multicast group IDs from a reserved range and prevent collisions by using Multicast DNS (mDNS) to publish records in a new "eth-addr.arpa" special-use domain. This protocol satisfies all of the criteria listed in draft-ietf-pim-zeroconf-mcast-addr-alloc-ps.</t>
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
-      <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> includes a problem statement and requirements for a zero-configuration method for dynamically assigning multicast addresses. This document describes a process that fulfills these requirements by having applications randomly assign IPv6 multicast group IDs from a reserved range and using mDNS to prevent collisions.</t>
+      <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> includes a problem statement and requirements for a zero-configuration method for dynamically assigning multicast addresses. This document describes a process that fulfills these requirements by having applications randomly assign IPv6 multicast group IDs from a reserved range and using mDNS <xref target="RFC6762"/> to prevent collisions.</t>
+
+      <t>Note that DNS-based Service Discovery (DNS-SD) <xref target="RFC6763"/> uses several different DNS record types, published using either Unicast or Multicast DNS, to facilitate service discovery. This document uses a single DNS record type (PTR), published using Multicast DNS, to coordinate IPv6 multicast address assignment in a zero-configuration environment. The DNS records in this protocol may be published alongside records for other domain name services, such as DNS-SD, or they may be published alone. mDNS is used in favor of a new protocol with the expectation that functionality for address assignment can be achieved using existing mDNS implementations.</t>
 
       <t>Once the IPv6 multicast address has been assigned, the data contained the multicast stream may be advertised using the method described in <xref target="I-D.karstens-dnssd-dns-msd"/>.</t>
 
@@ -118,7 +120,7 @@
     <section title="Acknowledgement">
       <t>Special thanks to the National Marine Electronics Association for their contributions in developing marine industry standards and their support for this research.</t>
 
-      <t>Thanks also to the members of the PIM working group for their early brainstorming sessions and review of this draft.</t>
+      <t>Thanks also to the members of the PIM working group for their early brainstorming sessions and review of this draft, and to Esko Dijk for his review of the draft.</t>
     </section>
   </middle>
 
@@ -133,6 +135,7 @@
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps.xml"/>
     </references>
     <references title="Informative References">
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6763.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8766.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.karstens-dnssd-dns-msd.xml"/>
