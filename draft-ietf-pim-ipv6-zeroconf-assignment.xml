@@ -74,6 +74,8 @@
 
       <t>The application then uses the mDNS probing algorithm described in <xref target="RFC6762" sectionFormat="comma" section="8.1"/> to continuously query for a PTR record with the same name as the generated string. If the probing algorithm completes without any conflict, then the application begins advertising its own unique PTR record using that name. The <tt>PTRDNAME</tt> field consists of a unique application identifier, in the form of a DNS label, followed by the device's host name (for example, "application.example.local."). Integrating a unique identifier in this manner allows for multiple applications to be on the same host. Note that A/AAAA records may also be published for this host name ("example.local."), though this is not a requirement for this design.</t>
 
+      <t>Because this protocol is focused specifically on allocating IPv6 multicast addresses, mDNS records MUST be published using IPv6, but MAY also be published using IPv4.</t>
+
       <t>Once the PTR record is advertised, the host may then begin transmitting multicast data using the generated address.</t>
 
       <t>The application shall retain the group ID value and use it the next time the multicast stream is transmitted. This allows the network to quickly settle on a configuration that will never have another collision as long as the network is unchanged.</t>
