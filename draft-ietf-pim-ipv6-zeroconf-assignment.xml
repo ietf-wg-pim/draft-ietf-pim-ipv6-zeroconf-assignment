@@ -51,13 +51,13 @@
     <date day="16" month="February" year="2025"/>
 
     <abstract>
-      <t>Describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses. Applications randomly assign multicast group IDs from a reserved range and prevent collisions by using Multicast DNS (mDNS) to publish records in a new "eth-addr.arpa" special-use domain. This protocol satisfies all of the criteria listed in draft-ietf-pim-zeroconf-mcast-addr-alloc-ps.</t>
+      <t>Describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses. Applications randomly assign multicast group IDs from a specified range and prevent collisions by using Multicast DNS (mDNS) to publish records in a new "eth-addr.arpa" special-use domain. This protocol satisfies all of the criteria listed in draft-ietf-pim-zeroconf-mcast-addr-alloc-ps.</t>
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
-      <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> includes a problem statement and requirements for a zero-configuration method for dynamically assigning multicast addresses. This document describes a process that fulfills these requirements by having applications randomly assign IPv6 multicast group IDs from a reserved range and using mDNS <xref target="RFC6762"/> to prevent collisions.</t>
+      <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> includes a problem statement and requirements for a zero-configuration method for dynamically assigning multicast addresses. This document describes a process that fulfills these requirements by having applications randomly assign IPv6 multicast group IDs from a specified range and using mDNS <xref target="RFC6762"/> to prevent collisions.</t>
 
       <t>Note that DNS-based Service Discovery (DNS-SD) <xref target="RFC6763"/> uses several different DNS record types, published using either Unicast or Multicast DNS, to facilitate service discovery. This document uses a single DNS record type (PTR), published using Multicast DNS, to coordinate IPv6 multicast address assignment in a zero-configuration environment. The DNS records in this protocol may be published alongside records for other domain name services, such as DNS-SD, or they may be published alone. mDNS is used in favor of a new protocol with the expectation that functionality for address assignment can be achieved using existing mDNS implementations.</t>
 
@@ -70,7 +70,7 @@
     </section>
 
     <section title="Procedure">
-      <t>When an application is preparing to transmit a multicast stream, it first generates a random group ID in the range <tt>0x90000000-0x9FFFFFFF</tt>, which IANA should reserve from the "Dynamic Multicast Group IDs" registry (see <xref target="iana"/>). It combines this with the Interface Identifier (IID) of the intended source address for the multicast stream to generate a link-scoped IPv6 multicast address <xref target="RFC4489"/>. The application then calculates the multicast Ethernet address that will be used to transmit the data (<xref target="RFC2464" sectionFormat="comma" section="7"/>) and uses that to construct a string like a reverse-mapping domain, using a new <tt>"eth-addr.arpa"</tt> special-use domain.</t>
+      <t>When an application is preparing to transmit a multicast stream, it first generates a random group ID in the range <tt>0x90000000-0x9FFFFFFF</tt>, which IANA is REQUESTED to assign from the "Dynamic Multicast Group IDs" registry (see <xref target="iana"/>). It combines this with the Interface Identifier (IID) of the intended source address for the multicast stream to generate a link-scoped IPv6 multicast address <xref target="RFC4489"/>. The application then calculates the multicast Ethernet address that will be used to transmit the data (<xref target="RFC2464" sectionFormat="comma" section="7"/>) and uses that to construct a string like a reverse-mapping domain, using a new <tt>"eth-addr.arpa"</tt> special-use domain.</t>
 
       <t>For example, given a source address of <tt>fe80::a12:34ff:fe56:7890</tt>, the IPv6 multicast address may be <tt>ff32:00ff:a12:34ff:fe56:7890:9abc:def0</tt>, the multicast Ethernet address <tt>33:33:9A:BC:DE:F0</tt>, and the resulting string is <tt>"0.f.e.d.c.b.a.9.3.3.3.3.eth-addr.arpa"</tt>.</t>
 
