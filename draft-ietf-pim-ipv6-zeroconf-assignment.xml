@@ -73,6 +73,8 @@
 
       <t>Note that DNS-based Service Discovery (DNS-SD) <xref target="RFC6763"/> uses several different DNS record types, published using either Unicast or Multicast DNS, to facilitate service discovery. This document uses a single DNS record type (PTR), published using Multicast DNS, to coordinate IPv6 multicast address assignment in a zero-configuration environment. The DNS records in this protocol may be published alongside records for other domain name services, such as DNS-SD, or they may be published alone. mDNS is used in favor of a new protocol with the expectation that functionality for address assignment can be achieved using existing mDNS implementations.</t>
 
+      <t>This protocol is well-suited for networks that rely on IPv6 multicast and already deploy mDNS.</t>
+
       <section anchor="requirements">
         <name>Requirements Language</name>
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/> when, and only when, they appear in all capitals, as shown here.</t>
