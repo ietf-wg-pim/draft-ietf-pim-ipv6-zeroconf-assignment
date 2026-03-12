@@ -118,7 +118,7 @@
     </section>
 
     <section title="IANA Considerations" anchor="iana">
-      <t>IANA should allocate a block of group IDs from the "Dynamic Multicast Group IDs" registry in the "IPv6 Multicast Address Space Registry" registry group that was created by <xref target="I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id"/>. The range of this block should be <tt>0x90000000-0x9FFFFFFF</tt> and the description should be the title of this document.</t>
+      <t>IANA should allocate a block of group IDs from the "Dynamic Multicast Group IDs" registry in the "IPv6 Multicast Address Space" registry group that was created by <xref target="I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id"/>. The range of this block should be <tt>0x90000000-0x9FFFFFFF</tt> and the description should be the title of this document.</t>
 
       <t>The special-use domain <tt>"eth-addr.arpa"</tt> should be registered in the .arpa registry (https://www.iana.org/domains/arpa) and the "Special-Use Domain Names" registry (https://www.iana.org/assignments/special-use-domain-names). This domain should not be delegated.</t>
 
