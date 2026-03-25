@@ -125,7 +125,17 @@
       <t>The special-use domain <tt>"9.3.3.3.3.eth-addr.arpa."</tt> should be registered in the "Special-Use Domain Names" registry (https://www.iana.org/assignments/special-use-domain-names). This domain should not be delegated.</t>
 
       <section title="Domain Name Reservation Considerations">
-        <t>The "9.3.3.3.3.eth-addr.arpa." domain is effectively a reverse-mapping domain and so has the same considerations as the reverse-mapping domains listed in <xref target="RFC6761" sectionFormat="comma" section="6.1"/>.</t>
+        <t><xref target="RFC6761" sectionFormat="comma" section="5"/> includes a list of questions that must be answered when reserving a new Special-Use Domain Name. The answers to these questions for the <tt>"9.3.3.3.3.eth-addr.arpa"</tt> Special-Use Domain, and any names falling within this domain, are as follows:</t>
+
+        <ol>
+          <li>Users are free to use these names as they would for any other reverse-mapping domain. Because this mapping is closely-related to the local network, users SHOULD be aware that these names are likely to yield different results on different networks.</li>
+          <li>Application software SHOULD recognize these names as a reverse-mapping domain and MAY associate them with the protocol described in this document.</li>
+          <li>Name resolution APIs and libraries SHOULD recognize these names as being used exclusively with mDNS, and so SHOULD NOT send queries for these names to their configured unicast DNS server(s).</li>
+          <li>Caching DNS servers SHOULD recognize these names as being used exclusively with mDNS, SHOULD NOT attempt to look up records associated with these names, and SHOULD respond to any query with NXDOMAIN.</li>
+          <li>Authoritative DNS servers SHOULD recognize these names as being used exclusively with mDNS and SHOULD respond to any query with NXDOMAIN.</li>
+          <li>DNS server operators MUST NOT configure an authoritative DNS server to answer queries for these names.</li>
+          <li>DNS Registries/Registrars MUST NOT register 9.3.3.3.3.eth-addr.arpa names.</li>
+        </ol>
       </section>
     </section>
 
