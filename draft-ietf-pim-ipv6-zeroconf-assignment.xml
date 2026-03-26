@@ -94,7 +94,7 @@
 
       <t>The application shall retain the group ID value and use it the next time the multicast stream is transmitted. This allows the network to quickly settle on a configuration that will never have another collision as long as the network is unchanged.</t>
 
-      <t>If a conflict is detected at any point, then the application stops transmitting that multicast stream and starts the process over using a different group ID.</t>
+      <t>If a conflict is detected at any point, then the application stops transmitting that multicast stream and starts the process over using a different group ID. As before, this new group ID is also retained, overwriting any group ID previously saved for this multicast stream.</t>
 
       <t>The host network stack may optionally monitor the network for traffic that uses the same destination multicast Ethernet address, but a different destination multicast IPv6 address. If this is detected, then the application responds the same as a collision.</t>
 
