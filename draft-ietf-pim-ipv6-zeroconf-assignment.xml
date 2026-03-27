@@ -108,13 +108,36 @@
     </section>
 
     <section title="Evaluation of Solution">
-      <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> contains a list of criteria to evaluate potential solutions. The protocol described in this document satisfies all of the required criteria.</t>
+      <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> contains a list of criteria to evaluate potential solutions. The following is an analysis of how this protocol satisfies the requirements listed in that document:</t>
 
-      <t>However, because mDNS is designed to be a low-bandwidth protocol, it can take a signficant amount of time to detect a record collision after a network partition is repaired. This is not a concern on networks where all multicast streams are established before any likely partition event because all group IDs will have been selected and stored for future use.</t>
+      <ol>
+        <li>[REQ-1] Unique Address Assignment: Use of the protocol results in a unique address being assigned to the multicast group at both the network and link layers.</li>
+        <li>[REQ-2] Resilience to Single Points of Failure: The protocol uses mDNS, which uses a peer-to-peer communication model and so has no single points of failure, as long as network connectivity is not interrupted.</li>
+        <li>[REQ-3] Zero User Configuration: The protocol operates without requiring user or administrator configuration.</li>
+        <li>[REQ-4] Coexistence with Multicast Address Allocation Solutions: This document assigns a range of group IDs from the "Dynamic Multicast Group IDs" registry for use with the protocol, which allows the protocol to coexist with other multicast IP address allocation solutions (see <xref target="I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id"/>).</li>
+        <li>[REQ-5] Single-Subnet Operation: The protocol supports operation within a single IPv6 subnet.</li>
+        <li>[REQ-6] No External Connectivity: The protocol does not require Internet access or connectivity to external infrastructure.</li>
+        <li>[REQ-7] Supports Multiple Host Applications: Incorporating a unique application identifier into the PTR record's <tt>PTRDNAME</tt> field allows the protocol to support multiple applications on the same host, each operating independently of the others.</li>
+        <li>[REQ-8] Collision Detection and Resolution: The protocol includes a mechanism to detect and resolve multicast address collisions at both the network and link layers. See <xref target="notes-on-collision-detection"/> for additional analysis.</li>
+      </ol>
 
-      <t>It is a greater concern on networks where multicast streams may be established at any time. Deployments on these networks may consider engaging a detection mechanism and prompting hosts to send unsolicited mDNS response messages when the partition is repaired.</t>
+      <t>The following is an analysis of how this protocol satisfies the desirable characteristics listed in <xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/>:</t>
 
-      <t>The protocol described in this document also satisfies the recommended criteria, to the extent that a deployment supports publishing mDNS-based DNS-SD records across multiple subnets (see <xref target="RFC8766"/>).</t>
+      <ol>
+        <li>[CONS-1] Multi-Subnet Support: The protocol can operate across multiple subnets if PTR records are distributed using the Discovery Proxy described in <xref target="RFC8766"/>. Note that the stream MUST use a unicast-prefix based IPv6 multicast address (<xref target="RFC3306"/>), as the link-scoped IPv6 multicast address used above is scoped to the local link.</li>
+        <li>[CONS-2] Standards Compatibility: The protocol uses existing protocols without requiring any changes.</li>
+        <li>[CONS-3] Cross-Platform Availability: The protocol uses mDNS, which is implemented on many host platforms and operating systems.</li>
+        <li>[CONS-4] Minimal Dependency on Manufacturing Data: The protocol does not rely on pre-loaded configuration or device-specific manufacturing data.</li>
+        <li>[CONS-5] Low Overhead: The protocol uses mDNS, which is designed to minimize the volume and frequency of network traffic generated during normal operation.</li>
+        <li>[CONS-6] Advertisement: This document does not prescribe any mechanism for advertising the IPv6 address used for the multicast stream. However, because the protocol already uses mDNS, a natural option for doing so would be to use DNS-SD (<xref target="RFC6763"/>) to advertise a "_udp" service and publish the address used for the multicast stream in a TXT record.</li>
+        <li>[CONS-7] Network Topology: Veto records ensure that the protocol works regardless of the underlying topology and adjacencies.</li>
+      </ol>
+
+      <section title="Notes on Collision Detection" anchor="notes-on-collision-detection">
+        <t>However, because mDNS is designed to be a low-bandwidth protocol, it can take a signficant amount of time to detect a record collision after a network partition is repaired. This is not a concern on networks where all multicast streams are established before any likely partition event because all group IDs will have been selected and stored for future use.</t>
+
+        <t>It is a greater concern on networks where multicast streams may be established at any time. Deployments on these networks may consider engaging a detection mechanism and prompting hosts to send unsolicited mDNS response messages when the partition is repaired.</t>
+      </section>
     </section>
 
     <section title="IANA Considerations" anchor="iana">
@@ -154,6 +177,7 @@
     <references title="Normative References">
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2464.xml"/>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3306.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4489.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6761.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6762.xml"/>
