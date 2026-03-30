@@ -107,6 +107,12 @@
       </section>
     </section>
 
+    <section title="Use on Networks with Multiple Subnets" anchor="scopes">
+      <t>The protocol can be extended across multiple subnets if PTR records are distributed between subnets (for example, by using an mDNS reflector or the Discovery Proxy described in <xref target="RFC8766"/>). Note that the stream MUST use a unicast-prefix based IPv6 multicast address (<xref target="RFC3306"/>), as the link-scoped IPv6 multicast address used above is scoped to the local link.</t>
+
+      <t>The protocol's reliance on cooperating hosts (see <xref target="security"/>) makes it unsuited for use on the global Internet. <xref target="RFC8815"/> recommends Source-Specific Multicast in this environment.</t>
+    </section>
+
     <section title="Evaluation of Solution">
       <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> contains a list of criteria to evaluate potential solutions. The following is an analysis of how this protocol satisfies the requirements listed in that document:</t>
 
@@ -124,7 +130,7 @@
       <t>The following is an analysis of how this protocol satisfies the desirable characteristics listed in <xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/>:</t>
 
       <ol>
-        <li>[CONS-1] Multi-Subnet Support: The protocol can operate across multiple subnets if PTR records are distributed using the Discovery Proxy described in <xref target="RFC8766"/>. Note that the stream MUST use a unicast-prefix based IPv6 multicast address (<xref target="RFC3306"/>), as the link-scoped IPv6 multicast address used above is scoped to the local link.</li>
+        <li>[CONS-1] Multi-Subnet Support: The protocol can operate across multiple subnets (see <xref target="scopes"/>).</li>
         <li>[CONS-2] Standards Compatibility: The protocol uses existing protocols without requiring any changes.</li>
         <li>[CONS-3] Cross-Platform Availability: The protocol uses mDNS, which is implemented on many host platforms and operating systems.</li>
         <li>[CONS-4] Minimal Dependency on Manufacturing Data: The protocol does not rely on pre-loaded configuration or device-specific manufacturing data.</li>
@@ -162,7 +168,7 @@
       </section>
     </section>
 
-    <section title="Security Considerations">
+    <section title="Security Considerations" anchor="security">
       <t>This algorithm only works in environments where all hosts are cooperating. Malicious hosts could deny service by repeatedly triggering address conflicts.</t>
     </section>
 
@@ -186,6 +192,7 @@
     <references title="Informative References">
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6763.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8766.xml"/>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8815.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id.xml"/>
     </references>
