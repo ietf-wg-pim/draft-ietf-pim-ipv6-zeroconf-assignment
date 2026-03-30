@@ -63,7 +63,7 @@
     <date day="30" month="March" year="2026"/>
 
     <abstract>
-      <t>Describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses that are unique at the link-layer. Applications randomly assign multicast group IDs from a specified range and prevent collisions by using Multicast DNS (mDNS) to publish records under a new "eth-addr.arpa" domain. This protocol satisfies all of the criteria listed in draft-ietf-pim-zeroconf-mcast-addr-alloc-ps.</t>
+      <t>Describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses that are unique at the link-layer. Applications randomly assign multicast group IDs from a specified range and prevent collisions by using Multicast DNS (mDNS) to publish resource records under a new "eth-addr.arpa" domain. This protocol satisfies all of the criteria listed in draft-ietf-pim-zeroconf-mcast-addr-alloc-ps.</t>
     </abstract>
   </front>
 
@@ -71,7 +71,7 @@
     <section title="Introduction">
       <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> includes a problem statement and requirements for a zero-configuration method for dynamically assigning multicast addresses. This document describes a process that fulfills these requirements by having applications randomly assign IPv6 multicast group IDs from a specified range and using mDNS <xref target="RFC6762"/> to prevent collisions in both IPv6 and link-layer addresses.</t>
 
-      <t>Note that DNS-based Service Discovery (DNS-SD) <xref target="RFC6763"/> uses several different DNS record types, published using either Unicast or Multicast DNS, to facilitate service discovery. This document uses a single DNS record type (PTR), published using Multicast DNS, to coordinate IPv6 multicast address assignment in a zero-configuration environment. The DNS records in this protocol may be published alongside records for other domain name services, such as DNS-SD, or they may be published alone. mDNS is used in favor of a new protocol with the expectation that functionality for address assignment can be achieved using existing mDNS implementations.</t>
+      <t>Note that DNS-based Service Discovery (DNS-SD) <xref target="RFC6763"/> uses several different DNS resource record types, published using either Unicast or Multicast DNS, to facilitate service discovery. This document uses a single DNS resource record type (PTR), published using Multicast DNS, to coordinate IPv6 multicast address assignment in a zero-configuration environment. The DNS resource records in this protocol may be published alongside records for other domain name services, such as DNS-SD, or they may be published alone. mDNS is used in favor of a new protocol with the expectation that functionality for address assignment can be achieved using existing mDNS implementations.</t>
 
       <t>This protocol is well-suited for networks that rely on IPv6 multicast and already deploy mDNS.</t>
 
@@ -88,7 +88,7 @@
 
       <t>The application then uses the mDNS probing algorithm described in <xref target="RFC6762" sectionFormat="comma" section="8.1"/> to continuously query for a PTR record with the same name as the generated string. If the probing algorithm completes without any conflict, then the application begins advertising its own unique PTR record using that name. The <tt>PTRDNAME</tt> field consists of a unique application identifier, in the form of a DNS label, followed by the device's host name (for example, "application.example.local."). Integrating a unique identifier in this manner allows for multiple applications to be on the same host. Note that A/AAAA records may also be published for this host name ("example.local."), though this is not a requirement for this design.</t>
 
-      <t>Because this protocol is focused specifically on allocating IPv6 multicast addresses, records MUST be published using the IPv6 multicast address for mDNS. In order to be compatible with existing mDNS implementations, records MAY also be published using the IPv4 multicast address for mDNS.</t>
+      <t>Because this protocol is focused specifically on allocating IPv6 multicast addresses, resource records MUST be published using the IPv6 multicast address for mDNS. In order to be compatible with existing mDNS implementations, resource records MAY also be published using the IPv4 multicast address for mDNS.</t>
 
       <t>Once the PTR record is advertised, the host may then begin transmitting multicast data using the generated address.</t>
 
@@ -140,7 +140,7 @@
       </ol>
 
       <section title="Notes on Collision Detection" anchor="notes-on-collision-detection">
-        <t>However, because mDNS is designed to be a low-bandwidth protocol, it can take a signficant amount of time to detect a record collision after a network partition is repaired. This is not a concern on networks where all multicast streams are established before any likely partition event because all group IDs will have been selected and stored for future use.</t>
+        <t>However, because mDNS is designed to be a low-bandwidth protocol, it can take a signficant amount of time to detect a resource record collision after a network partition is repaired. This is not a concern on networks where all multicast streams are established before any likely partition event because all group IDs will have been selected and stored for future use.</t>
 
         <t>It is a greater concern on networks where multicast streams may be established at any time. Deployments on these networks may consider engaging a detection mechanism and prompting hosts to send unsolicited mDNS response messages when the partition is repaired.</t>
       </section>
@@ -160,7 +160,7 @@
           <li>Users are free to use these names as they would for any other reverse-mapping domain. Because this mapping is closely-related to the local network, users SHOULD be aware that these names are likely to yield different results on different networks.</li>
           <li>Application software SHOULD recognize these names as a reverse-mapping domain and MAY associate them with the protocol described in this document.</li>
           <li>Name resolution APIs and libraries SHOULD recognize these names as being used exclusively with mDNS, and so SHOULD NOT send queries for these names to their configured unicast DNS server(s).</li>
-          <li>Caching DNS servers SHOULD recognize these names as being used exclusively with mDNS, SHOULD NOT attempt to look up records associated with these names, and SHOULD respond to any query with NXDOMAIN.</li>
+          <li>Caching DNS servers SHOULD recognize these names as being used exclusively with mDNS, SHOULD NOT attempt to look up resource records associated with these names, and SHOULD respond to any query with NXDOMAIN.</li>
           <li>Authoritative DNS servers SHOULD recognize these names as being used exclusively with mDNS and SHOULD respond to any query with NXDOMAIN.</li>
           <li>DNS server operators MUST NOT configure an authoritative DNS server to answer queries for these names.</li>
           <li>DNS Registries/Registrars MUST NOT register 9.3.3.3.3.eth-addr.arpa names.</li>
