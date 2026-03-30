@@ -22,7 +22,7 @@
   consensus="true">
 
   <front>
-    <title abbrev="Zeroconf Assignment of IPv6 Mcast Addrs">Zero-Configuration Assignment of IPv6 Multicast Addresses</title>
+    <title abbrev="Zeroconf Assignment of IPv6 Mcast Addrs">Zero-Configuration Assignment of IPv6 Multicast Addresses Using mDNS</title>
 
     <author fullname="Nate Karstens" initials="N" surname="Karstens">
       <organization abbrev="Garmin">Garmin International, Inc.</organization>
