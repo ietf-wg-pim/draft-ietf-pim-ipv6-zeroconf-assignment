@@ -103,7 +103,7 @@
       <section title="Veto Records">
         <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps" sectionFormat="comma" section="2"/> describes collisions occurring in the network infrastructure (for example, due to switch design). When an infrastructure component detects a collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name and the <tt>PTRDNAME</tt> field set to the string <tt>"veto"</tt>, formatted as a DNS label. The veto record is published without probing.</t>
 
-        <t>Applications respond to the conflict the same as to a collision. The application retains its new group ID, so the same conflict is not repeated in the future.</t>
+        <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID, ensuring the same conflict is not repeated in the future.</t>
       </section>
     </section>
 
