@@ -94,6 +94,8 @@
 
       <t>Because this protocol is focused specifically on allocating IPv6 multicast addresses, resource records MUST be published using the IPv6 multicast address for mDNS. In order to be compatible with existing mDNS implementations, resource records MAY also be published using the IPv4 multicast address for mDNS.</t>
 
+      <t>mDNS implementations used with this protocol MUST facilitate interaction between multiple applications using the same mDNS implementation, and with other mDNS implementations on the same host. This ensures that multiple applications that happen to generate the same group ID will detect this when probing and use a different group ID.</t>
+
       <t>Once the PTR record is advertised, the host MAY then begin transmitting multicast data using the generated address.</t>
 
       <t>The application SHALL retain the group ID value and use it the next time the multicast stream is transmitted. This allows the network to quickly settle on a configuration that will never have another collision as long as the network is unchanged.</t>
@@ -127,7 +129,7 @@
         <li>[REQ-4] Coexistence with Multicast Address Allocation Solutions: This document assigns a range of group IDs from the "Dynamic Multicast Group IDs" registry for use with the protocol, which allows the protocol to coexist with other multicast IP address allocation solutions (see <xref target="I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id"/>).</li>
         <li>[REQ-5] Single-Subnet Operation: The protocol supports operation within a single IPv6 subnet.</li>
         <li>[REQ-6] No External Connectivity: The protocol does not require Internet access or connectivity to external infrastructure.</li>
-        <li>[REQ-7] Supports Multiple Host Applications: Incorporating a unique application identifier into the PTR record's <tt>PTRDNAME</tt> field allows the protocol to support multiple applications on the same host, each operating independently of the others.</li>
+        <li>[REQ-7] Supports Multiple Host Applications: Multiple applications on the same host are supported by 1) incorporating a unique application identifier into the PTR record's <tt>PTRDNAME</tt> field and 2) by requiring the mDNS implementation(s) on a host to facilitate interaction between those applications.</li>
         <li>[REQ-8] Collision Detection and Resolution: The protocol includes a mechanism to detect and resolve multicast address collisions at both the network and link layers. See <xref target="notes-on-collision-detection"/> for additional analysis.</li>
       </ol>
 
