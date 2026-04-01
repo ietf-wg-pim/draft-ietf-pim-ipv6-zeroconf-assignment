@@ -86,7 +86,7 @@
 
       <t>Once the multicast Ethernet address is determined, the application SHALL then use this to construct a domain name by encoding nibbles from the multicast Ethernet address as a sequence of lower-case hexadecimal digits, separated by dots, in reverse order, and ending with the suffix <tt>".eth-addr.arpa"</tt> (a new domain in the .arpa registry).</t>
 
-      <t>For example, given a source address of <tt>fe80::a12:34ff:fe56:7890</tt>, the IPv6 multicast address may be <tt>ff32:00ff:a12:34ff:fe56:7890:9abc:def0</tt>, the group ID <tt>9abc:def0</tt>, the multicast Ethernet address <tt>33:33:9A:BC:DE:F0</tt>, and the resulting string is <tt>"0.f.e.d.c.b.a.9.3.3.3.3.eth-addr.arpa"</tt>.</t>
+      <t>For example, given a source address of <tt>fe80::a12:34ff:fe56:7890</tt>, the IPv6 multicast address may be <tt>ff32:ff:a12:34ff:fe56:7890:9abc:def0</tt>, the group ID <tt>9abc:def0</tt>, the multicast Ethernet address <tt>33:33:9A:BC:DE:F0</tt>, and the resulting string is <tt>"0.f.e.d.c.b.a.9.3.3.3.3.eth-addr.arpa"</tt>.</t>
 
       <t>Note that this is similar to how DNS resource records used for reverse mapping IPv6 addresses are created (see <xref target="RFC3596" sectionFormat="comma" section="2.5"/>).</t>
 
