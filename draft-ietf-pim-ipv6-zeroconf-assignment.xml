@@ -98,9 +98,9 @@
 
       <t>Once the PTR record is advertised, the host MAY then begin transmitting multicast data using the generated address.</t>
 
-      <t>The application SHALL retain the group ID value and use it the next time the multicast stream is transmitted. This allows the network to quickly settle on a configuration that will never have another collision as long as the network is unchanged.</t>
+      <t>The application SHALL retain the group ID value in persistent storage and use it the next time the multicast stream is transmitted. This allows the network to quickly settle on a configuration that will never have another collision as long as the network is unchanged.</t>
 
-      <t>If a conflict is detected at any point, then the application SHALL stop transmitting that multicast stream and start the process over using a different group ID. As before, this new group ID is also retained, overwriting any group ID previously saved for this multicast stream.</t>
+      <t>If a conflict is detected at any point, then the application SHALL stop transmitting that multicast stream and start the process over using a different group ID. As before, this new group ID is also retained in persistent storage, overwriting any group ID previously saved for this multicast stream.</t>
 
       <t>The host network stack may optionally monitor the network for traffic that uses the same destination multicast Ethernet address, but a different destination multicast IPv6 address. If this is detected, then the application SHALL respond the same as with a collision.</t>
 
@@ -109,7 +109,7 @@
       <section title="Veto Records">
         <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps" sectionFormat="comma" section="2"/> describes collisions occurring in the network infrastructure (for example, due to switch design). When an infrastructure component detects a collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name and the <tt>PTRDNAME</tt> field set to the string <tt>"veto"</tt>, formatted as a DNS label. The veto record is published without probing.</t>
 
-        <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID, ensuring the same conflict is not repeated in the future.</t>
+        <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future.</t>
       </section>
     </section>
 
