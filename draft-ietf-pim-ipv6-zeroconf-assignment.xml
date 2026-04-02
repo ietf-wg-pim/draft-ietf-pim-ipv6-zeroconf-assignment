@@ -175,7 +175,7 @@
     </section>
 
     <section title="Security Considerations" anchor="security">
-      <t>As with mDNS itself, this protocol only works in environments where all hosts are cooperating. Malicious hosts could deny service by repeatedly triggering address conflicts.</t>
+      <t>As with mDNS itself, this protocol only works in environments where all hosts are cooperating. Malicious hosts could deny service by repeatedly triggering address conflicts (for example, by publishing veto records).</t>
     </section>
 
     <section title="Acknowledgement">
