@@ -122,27 +122,27 @@
     <section title="Evaluation of Solution">
       <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> contains a list of criteria to evaluate potential solutions. The following is an analysis of how this protocol satisfies the requirements listed in that document:</t>
 
-      <ol>
-        <li>[REQ-1] Unique Address Assignment: Use of the protocol results in a unique address being assigned to the multicast group at both the network and link layers.</li>
-        <li>[REQ-2] Resilience to Single Points of Failure: The protocol uses mDNS, which uses a peer-to-peer communication model and so has no single points of failure, as long as network connectivity is not interrupted.</li>
-        <li>[REQ-3] Zero User Configuration: The protocol operates without requiring user or administrator configuration.</li>
-        <li>[REQ-4] Coexistence with Multicast Address Allocation Solutions: This document assigns a range of group IDs from the "Dynamic Multicast Group IDs" registry for use with the protocol, which allows the protocol to coexist with other multicast IP address allocation solutions (see <xref target="I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id"/>).</li>
-        <li>[REQ-5] Single-Subnet Operation: The protocol supports operation within a single IPv6 subnet.</li>
-        <li>[REQ-6] No External Connectivity: The protocol does not require Internet access or connectivity to external infrastructure.</li>
-        <li>[REQ-7] Supports Multiple Host Applications: Multiple applications on the same host are supported by 1) incorporating a unique application identifier into the PTR record's <tt>PTRDNAME</tt> field and 2) by requiring the mDNS implementation(s) on a host to facilitate interaction between those applications.</li>
-        <li>[REQ-8] Collision Detection and Resolution: The protocol includes a mechanism to detect and resolve multicast address collisions at both the network and link layers. See <xref target="collision-detection-after-partition-repair"/> for additional discussion about detecting and resolving collisions after a network partition is repaired.</li>
+      <ol type="[REQ-%d]" spacing="normal" indent="9">
+        <li>Unique Address Assignment: Use of the protocol results in a unique address being assigned to the multicast group at both the network and link layers.</li>
+        <li>Resilience to Single Points of Failure: The protocol uses mDNS, which uses a peer-to-peer communication model and so has no single points of failure, as long as network connectivity is not interrupted.</li>
+        <li>Zero User Configuration: The protocol operates without requiring user or administrator configuration.</li>
+        <li>Coexistence with Multicast Address Allocation Solutions: This document assigns a range of group IDs from the "Dynamic Multicast Group IDs" registry for use with the protocol, which allows the protocol to coexist with other multicast IP address allocation solutions (see <xref target="I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id"/>).</li>
+        <li>Single-Subnet Operation: The protocol supports operation within a single IPv6 subnet.</li>
+        <li>No External Connectivity: The protocol does not require Internet access or connectivity to external infrastructure.</li>
+        <li>Supports Multiple Host Applications: Multiple applications on the same host are supported by 1) incorporating a unique application identifier into the PTR record's <tt>PTRDNAME</tt> field and 2) by requiring the mDNS implementation(s) on a host to facilitate interaction between those applications.</li>
+        <li>Collision Detection and Resolution: The protocol includes a mechanism to detect and resolve multicast address collisions at both the network and link layers. See <xref target="collision-detection-after-partition-repair"/> for additional discussion about detecting and resolving collisions after a network partition is repaired.</li>
       </ol>
 
       <t>The following is an analysis of how this protocol satisfies the desirable characteristics listed in <xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/>:</t>
 
-      <ol>
-        <li>[CONS-1] Multi-Subnet Support: The protocol can operate across multiple subnets (see <xref target="scopes"/>).</li>
-        <li>[CONS-2] Standards Compatibility: The protocol uses existing protocols without requiring any changes.</li>
-        <li>[CONS-3] Cross-Platform Availability: The protocol uses mDNS, which is implemented on many host platforms and operating systems.</li>
-        <li>[CONS-4] Minimal Dependency on Manufacturing Data: The protocol does not rely on pre-loaded configuration or device-specific manufacturing data.</li>
-        <li>[CONS-5] Low Overhead: The protocol uses mDNS, which is designed to minimize the volume and frequency of network traffic generated during normal operation.</li>
-        <li>[CONS-6] Advertisement: This document does not prescribe any mechanism for advertising the IPv6 address used for the multicast stream. However, because the protocol already uses mDNS, a natural option for doing so would be to use DNS-SD (<xref target="RFC6763"/>) to advertise a "_udp" service and publish the address used for the multicast stream in a TXT record.</li>
-        <li>[CONS-7] Network Topology: Veto records ensure that the protocol works regardless of the underlying topology and adjacencies.</li>
+      <ol type="[CONS-%d]" indent="10">
+        <li>Multi-Subnet Support: The protocol can operate across multiple subnets (see <xref target="scopes"/>).</li>
+        <li>Standards Compatibility: The protocol uses existing protocols without requiring any changes.</li>
+        <li>Cross-Platform Availability: The protocol uses mDNS, which is implemented on many host platforms and operating systems.</li>
+        <li>Minimal Dependency on Manufacturing Data: The protocol does not rely on pre-loaded configuration or device-specific manufacturing data.</li>
+        <li>Low Overhead: The protocol uses mDNS, which is designed to minimize the volume and frequency of network traffic generated during normal operation.</li>
+        <li>Advertisement: This document does not prescribe any mechanism for advertising the IPv6 address used for the multicast stream. However, because the protocol already uses mDNS, a natural option for doing so would be to use DNS-SD (<xref target="RFC6763"/>) to advertise a "_udp" service and publish the address used for the multicast stream in a TXT record.</li>
+        <li>Network Topology: Veto records ensure that the protocol works regardless of the underlying topology and adjacencies.</li>
       </ol>
 
       <section title="Collision Detection After Partition Repair" anchor="collision-detection-after-partition-repair">
