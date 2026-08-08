@@ -177,12 +177,6 @@
     <section title="Security Considerations" anchor="security">
       <t>As with mDNS itself, this protocol only works in environments where all hosts are cooperating. Malicious hosts could deny service by repeatedly triggering address conflicts (for example, by publishing veto records).</t>
     </section>
-
-    <section title="Acknowledgement">
-      <t>Special thanks to the National Marine Electronics Association for their contributions in developing marine industry standards and their support for this work.</t>
-
-      <t>Thanks also to the members of the PIM working group for their early brainstorming sessions and review of this draft, and to Esko Dijk for his review of the draft.</t>
-    </section>
   </middle>
 
   <back>
@@ -203,5 +197,11 @@
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8815.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.10019.xml"/>
     </references>
+
+    <section title="Acknowledgement" numbered="false">
+      <t>Special thanks to the National Marine Electronics Association for their contributions in developing marine industry standards and their support for this work.</t>
+
+      <t>Thanks also to the members of the PIM working group for their early brainstorming sessions and review of this draft, and to Esko Dijk for his review of the draft.</t>
+    </section>
   </back>
 </rfc>
