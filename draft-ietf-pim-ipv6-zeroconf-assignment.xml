@@ -63,13 +63,13 @@
     <date day="2" month="April" year="2026"/>
 
     <abstract>
-      <t>This document describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses that are unique at the link-layer. Applications randomly assign multicast group IDs from a specified range and prevent collisions by using Multicast DNS (mDNS) to publish resource records under a new "eth-addr.arpa" domain. This protocol satisfies all of the criteria listed in draft-ietf-pim-zeroconf-mcast-addr-alloc-ps.</t>
+      <t>This document describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses that are unique at the link-layer. Applications randomly assign multicast group IDs from a specified range and prevent collisions by using Multicast DNS (mDNS) to publish resource records under a new "eth-addr.arpa" domain. This protocol satisfies all of the criteria listed in RFC 10019.</t>
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
-      <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> includes a problem statement and requirements for a zero-configuration method for dynamically assigning multicast addresses. This document describes a process that fulfills these requirements by having applications randomly assign IPv6 multicast group IDs from a specified range and using mDNS <xref target="RFC6762"/> to prevent collisions in both IPv6 and link-layer addresses.</t>
+      <t><xref target="RFC10019"/> includes a problem statement and requirements for a zero-configuration method for dynamically assigning multicast addresses. This document describes a process that fulfills these requirements by having applications randomly assign IPv6 multicast group IDs from a specified range and using mDNS <xref target="RFC6762"/> to prevent collisions in both IPv6 and link-layer addresses.</t>
 
       <t>Note that DNS-based Service Discovery (DNS-SD) <xref target="RFC6763"/> uses several different DNS resource record types, published using either Unicast or Multicast DNS, to facilitate service discovery. This document uses a single DNS resource record type (PTR), published using Multicast DNS (mDNS), to coordinate IPv6 multicast address assignment in a zero-configuration environment. The DNS resource records in this protocol may be published alongside records for other domain name services, such as DNS-SD, or they may be published alone. mDNS is used rather than a new protocol with the expectation that functionality for address assignment can be achieved using existing mDNS implementations.</t>
 
@@ -107,7 +107,7 @@
       <t>While intended primarily for allocating IPv6 multicast addresses on the same subnet (link-local scope), the same technique could also apply to a larger network as long as mDNS traffic is routed between subnets (for any scope excluding global scope).</t>
 
       <section title="Veto Records">
-        <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps" sectionFormat="comma" section="2"/> describes collisions occurring in the network infrastructure (for example, due to switch design). When an infrastructure component detects a collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name and the <tt>PTRDNAME</tt> field set to the string <tt>"veto"</tt>, formatted as a DNS label. The veto record is published without probing.</t>
+        <t><xref target="RFC10019" sectionFormat="comma" section="2"/> describes collisions occurring in the network infrastructure (for example, due to switch design). When an infrastructure component detects a collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name and the <tt>PTRDNAME</tt> field set to the string <tt>"veto"</tt>, formatted as a DNS label. The veto record is published without probing.</t>
 
         <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future.</t>
       </section>
@@ -120,20 +120,20 @@
     </section>
 
     <section title="Evaluation of Solution">
-      <t><xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/> contains a list of criteria to evaluate potential solutions. The following is an analysis of how this protocol satisfies the requirements listed in that document:</t>
+      <t><xref target="RFC10019"/> contains a list of criteria to evaluate potential solutions. The following is an analysis of how this protocol satisfies the requirements listed in that document:</t>
 
       <ol type="[REQ-%d]" spacing="normal" indent="9">
         <li>Unique Address Assignment: Use of the protocol results in a unique address being assigned to the multicast group at both the network and link layers.</li>
         <li>Resilience to Single Points of Failure: The protocol uses mDNS, which uses a peer-to-peer communication model and so has no single points of failure, as long as network connectivity is not interrupted.</li>
         <li>Zero User Configuration: The protocol operates without requiring user or administrator configuration.</li>
-        <li>Coexistence with Multicast Address Allocation Solutions: This document assigns a range of group IDs from the "Dynamic Multicast Group IDs" registry for use with the protocol, which allows the protocol to coexist with other multicast IP address allocation solutions (see <xref target="I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id"/>).</li>
+        <li>Coexistence with Multicast Address Allocation Solutions: This document assigns a range of group IDs from the "Dynamic Multicast Group IDs" registry for use with the protocol, which allows the protocol to coexist with other multicast IP address allocation solutions (see <xref target="RFC10028"/>).</li>
         <li>Single-Subnet Operation: The protocol supports operation within a single IPv6 subnet.</li>
         <li>No External Connectivity: The protocol does not require Internet access or connectivity to external infrastructure.</li>
         <li>Supports Multiple Host Applications: Multiple applications on the same host are supported by 1) incorporating a unique application identifier into the PTR record's <tt>PTRDNAME</tt> field and 2) by requiring the mDNS implementation(s) on a host to facilitate interaction between those applications.</li>
         <li>Collision Detection and Resolution: The protocol includes a mechanism to detect and resolve multicast address collisions at both the network and link layers. See <xref target="collision-detection-after-partition-repair"/> for additional discussion about detecting and resolving collisions after a network partition is repaired.</li>
       </ol>
 
-      <t>The following is an analysis of how this protocol satisfies the desirable characteristics listed in <xref target="I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps"/>:</t>
+      <t>The following is an analysis of how this protocol satisfies the desirable characteristics listed in <xref target="RFC10019"/>:</t>
 
       <ol type="[CONS-%d]" indent="10">
         <li>Multi-Subnet Support: The protocol can operate across multiple subnets (see <xref target="scopes"/>).</li>
@@ -153,7 +153,7 @@
     </section>
 
     <section title="IANA Considerations" anchor="iana">
-      <t>IANA should allocate a block of group IDs from the "Dynamic Multicast Group IDs" registry in the "IPv6 Multicast Address Space" registry group that was created by <xref target="I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id"/>. The range of this block should be <tt>0x90000000-0x9FFFFFFF</tt> and the description should be the title of this document.</t>
+      <t>IANA should allocate a block of group IDs from the "Dynamic Multicast Group IDs" registry in the "IPv6 Multicast Address Space" registry group that was created by <xref target="RFC10028"/>. The range of this block should be <tt>0x90000000-0x9FFFFFFF</tt> and the description should be the title of this document.</t>
 
       <t>The domain <tt>"eth-addr.arpa"</tt> should be registered in the .arpa registry (https://www.iana.org/domains/arpa). The usage should indicate that it is for mapping Ethernet addresses to local domain names and it should reference this document.</t>
 
@@ -194,14 +194,14 @@
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6761.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6762.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.10028.xml"/>
     </references>
     <references title="Informative References">
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3596.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6763.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8766.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8815.xml"/>
-      <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-pim-zeroconf-mcast-addr-alloc-ps.xml"/>
-      <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-pim-updt-ipv6-dyn-mcast-addr-grp-id.xml"/>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.10019.xml"/>
     </references>
   </back>
 </rfc>
