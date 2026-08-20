@@ -94,7 +94,7 @@
 
       <t>Because this protocol is focused specifically on allocating IPv6 multicast addresses, resource records MUST be published using the IPv6 multicast address for mDNS. In order to be compatible with existing mDNS implementations, resource records MAY also be published using the IPv4 multicast address for mDNS.</t>
 
-      <t>mDNS implementations used with this protocol MUST facilitate interaction between multiple applications using the same mDNS implementation, and with other mDNS implementations on the same host. This ensures that multiple applications that happen to generate the same group ID will detect this when probing and use a different group ID.</t>
+      <t>mDNS implementations used with this protocol MUST coordinate with all applications using the same mDNS implementation, as well as with other mDNS implementations running on the same host. Such coordination ensures that conflicts arising from independently generated identical group IDs are detected during the probing phase, allowing the affected applications to select alternate group IDs. Note that coordination between mDNS implementations running on the same host tends to happen naturally if transmitted multicast packets are looped back into the receive pipeline.</t>
 
       <t>Once the PTR record is advertised, the host MAY then begin transmitting multicast data using the generated address.</t>
 
