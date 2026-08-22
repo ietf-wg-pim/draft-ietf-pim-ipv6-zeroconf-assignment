@@ -73,7 +73,7 @@
 
       <t>Note that DNS-based Service Discovery (DNS-SD) <xref target="RFC6763"/> uses several different DNS resource record types, published using either Unicast or Multicast DNS, to facilitate service discovery. This document uses a single DNS resource record type (PTR), published using Multicast DNS (mDNS), to coordinate IPv6 multicast address assignment in a zero-configuration environment. The DNS resource records in this protocol may be published alongside records for other domain name services, such as DNS-SD, or they may be published alone. mDNS is used rather than a new protocol with the expectation that functionality for address assignment can be achieved using existing mDNS implementations.</t>
 
-      <t>This protocol is well-suited for networks that rely on IPv6 multicast and already deploy mDNS.</t>
+      <t>The protocol described in this document is well-suited for networks that rely on IPv6 multicast and already deploy mDNS.</t>
 
       <section anchor="requirements">
         <name>Requirements Language</name>
