@@ -159,7 +159,7 @@
 
       <t>IANA manages two registries that contain entries used for mapping addresses to names. This document introduces <tt>"eth-addr.arpa"</tt> for use in a similar capacity and so requests that it be added to these registries as well.</t>
 
-      <t>The domain <tt>"eth-addr.arpa"</tt> should be registered in the .arpa registry (https://www.iana.org/domains/arpa). The usage should indicate that it is for mapping Ethernet addresses to local domain names and it should reference this document.</t>
+      <t>The domain <tt>"eth-addr.arpa"</tt> should be registered in the .arpa registry (https://www.iana.org/domains/arpa). The usage should be "For mapping Ethernet addresses to local domain names for Zero-Configuration Assignment of IPv6 Multicast Addresses" and the reference should be [I-D.draft-ietf-pim-ipv6-zeroconf-assignment].</t>
 
       <t>The special-use domain <tt>"9.3.3.3.3.eth-addr.arpa."</tt> should be registered in the "Special-Use Domain Names" registry (https://www.iana.org/assignments/special-use-domain-names). This domain should not be delegated.</t>
 
