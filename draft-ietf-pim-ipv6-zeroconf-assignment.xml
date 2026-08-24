@@ -155,7 +155,7 @@
     </section>
 
     <section title="IANA Considerations" anchor="iana">
-      <t>IANA should allocate a block of group IDs from the "Dynamic Multicast Group IDs" registry in the "IPv6 Multicast Address Space" registry group that was created by <xref target="RFC10028"/>. The range of this block should be <tt>0x90000000-0x9FFFFFFF</tt> and the description should be the title of this document.</t>
+      <t>IANA should allocate a block of group IDs from the "Dynamic Multicast Group IDs" registry in the "IPv6 Multicast Address Space" registry group that was created by <xref target="RFC10028"/>. The range of this block should be <tt>0x90000000-0x9FFFFFFF</tt> and the description should be "Zero-Configuration Assignment of IPv6 Multicast Addresses Using mDNS".</t>
 
       <t>IANA manages two registries that contain entries used for mapping addresses to names. This document introduces <tt>"eth-addr.arpa"</tt> for use in a similar capacity and so requests that it be added to these registries as well.</t>
 
