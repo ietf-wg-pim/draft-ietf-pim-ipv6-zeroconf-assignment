@@ -150,7 +150,7 @@
       <section title="Collision Detection After Partition Repair" anchor="collision-detection-after-partition-repair">
         <t>Because mDNS is designed to be a low-bandwidth protocol, it can take a signficant amount of time to detect a resource record collision after a network partition is repaired. This is not a concern on networks where all multicast streams are established before any likely partition event because all group IDs will have been selected and stored for future use.</t>
 
-        <t>It is a greater concern on networks where multicast streams may be established at any time. Deployments on these networks may consider engaging supplemental detection and resolution mechanisms. Specifics of this functionality are left as a future enhancement.</t>
+        <t>It is a greater concern on networks where multicast streams may be established at any time. Deployments on these networks may consider engaging supplemental detection and resolution mechanisms. Specifics of this functionality are open to future enhancement, but are considered out-of-scope for this document.</t>
       </section>
     </section>
 
