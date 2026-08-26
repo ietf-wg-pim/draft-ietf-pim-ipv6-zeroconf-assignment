@@ -193,7 +193,7 @@
     </section>
 
     <section title="Security Considerations" anchor="security">
-      <t>As with mDNS itself, this protocol only works in environments where all hosts are cooperating. Malicious hosts could deny service by repeatedly triggering address conflicts (for example, by publishing veto records).</t>
+      <t>As with mDNS itself, this protocol only works in environments where all hosts are cooperating. A bad actor could prevent an application from being able to use this protocol to allocate a multicast address. In turn, this would prevent the application from being able to transmit its multicast stream, denying service to the multicast group.</t>
     </section>
   </middle>
 
