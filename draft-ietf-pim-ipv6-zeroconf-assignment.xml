@@ -132,6 +132,10 @@
         <t>The application SHALL retain the group ID value in persistent storage and use it the next time the multicast stream is transmitted. This allows the network to quickly settle on a configuration that will never have another collision as long as the network is unchanged.</t>
       </section>
 
+      <section title="Defending">
+        <t>The application SHALL defend the PTR record from probes as described in <xref target="RFC6762" sectionFormat="comma" section="6"/>.</t>
+      </section>
+
       <section title="Conflict Detection">
         <t>If the continuous query started in <xref target="probing-and-announcing"/> detects a conflict at any time, then the application SHALL stop transmitting that multicast stream and restart the process, selecting a different group ID. As before, this new group ID is also retained in persistent storage, overwriting any group ID previously saved for this multicast stream.</t>
 
