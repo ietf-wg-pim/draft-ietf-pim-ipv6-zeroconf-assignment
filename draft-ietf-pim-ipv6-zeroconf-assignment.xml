@@ -158,7 +158,7 @@
 
       <t>When a network infrastructure component detects a collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name and the <tt>PTRDNAME</tt> field set to the string <tt>"veto"</tt>, formatted as a DNS label. The veto record is published without probing.</t>
 
-      <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future.</t>
+      <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future. As such, it is unnecessary to store vetoes to persistent storage. Veto records may be deleted as soon as the conflict is resolved.</t>
     </section>
 
     <section title="Use on Networks with Multiple Subnets" anchor="scopes">
