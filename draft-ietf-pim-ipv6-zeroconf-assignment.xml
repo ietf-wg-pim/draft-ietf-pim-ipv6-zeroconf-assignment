@@ -119,7 +119,7 @@
       <section title="Probing and Announcing" anchor="probing-and-announcing">
         <t>After the PTR record is constructed, the application SHALL use the mDNS probing algorithm described in <xref target="RFC6762" sectionFormat="comma" section="8.1"/> to continuously query for a PTR record with the same name. If the probing algorithm completes without any conflict, then the application SHALL begin advertising the PTR record.</t>
 
-        <t>Because this protocol is focused specifically on allocating IPv6 multicast addresses, resource records MUST be published using the IPv6 multicast address for mDNS. In order to be compatible with existing mDNS implementations, resource records MAY also be published using the IPv4 multicast address for mDNS.</t>
+        <t>Because this protocol is focused specifically on allocating IPv6 multicast addresses, resource records MUST be published using the IPv6 multicast address for mDNS. In order to be compatible with existing mDNS implementations that require IPv4, resource records MAY also be published using the IPv4 multicast address for mDNS.</t>
 
         <t>mDNS implementations used with this protocol MUST coordinate with all applications using the same mDNS implementation, as well as with other mDNS implementations running on the same host. Such coordination ensures that conflicts arising from independently generated, identical group IDs are detected during the probing phase, allowing the affected applications to select alternate group IDs. Note that coordination between mDNS implementations running on the same host tends to happen naturally if transmitted multicast packets are looped back into the receive pipeline.</t>
       </section>
