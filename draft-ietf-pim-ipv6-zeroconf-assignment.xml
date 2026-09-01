@@ -82,6 +82,12 @@
     </section>
 
     <section title="Procedure">
+      <t>This section describes how an application dynamically generates an IPv6 multicast address, uses mDNS to coordinate use of that address with other applications on the network, and begins transmitting its multicast stream.</t>
+
+      <t>Because this protocol is focused specifically on allocating IPv6 multicast addresses, applications MUST send and receive mDNS messages using the IPv6 multicast address for mDNS. In order to be compatible with existing mDNS implementations that require IPv4, applications MAY also send and receive mDNS messages using the IPv4 multicast address for mDNS.</t>
+
+      <t>mDNS implementations used with this protocol MUST coordinate with all applications using the same mDNS implementation, as well as with other mDNS implementations running on the same host. Such coordination ensures that conflicts arising from independently generated, identical group IDs are detected during the probing phase, allowing the affected applications to select alternate group IDs. Note that coordination between mDNS implementations running on the same host tends to happen naturally if transmitted multicast packets are looped back into the receive pipeline.</t>
+
       <t>The process an application uses from initialization to transmitting a multicast stream is divided into a series of steps, outlined below:</t>
 
       <section title="Address Generation" anchor="address-generation">
@@ -116,12 +122,14 @@
         <t>Note that A/AAAA records may also be published for this same host name (for example, "example.local."), though this is not a requirement for this design.</t>
       </section>
 
-      <section title="Probing and Announcing" anchor="probing-and-announcing">
-        <t>After the PTR record is constructed, the application SHALL use the mDNS probing algorithm described in <xref target="RFC6762" sectionFormat="comma" section="8.1"/> to continuously query for a PTR record with the same name. If the probing algorithm completes without any conflict, then the application SHALL begin advertising the PTR record.</t>
+      <section title="Probing" anchor="probing">
+        <t>After the PTR record is constructed, the application SHALL use the mDNS probing algorithm described in <xref target="RFC6762" sectionFormat="comma" section="8.1"/> to probe for a PTR record with the same name.</t>
 
-        <t>Because this protocol is focused specifically on allocating IPv6 multicast addresses, resource records MUST be published using the IPv6 multicast address for mDNS. In order to be compatible with existing mDNS implementations that require IPv4, resource records MAY also be published using the IPv4 multicast address for mDNS.</t>
+        <t>Due to the large range of values for group IDs, it is unlikely that two applications would randomly choose the same group ID and begin probing at the same time. However, in that event, the conflict SHALL be resolved according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.2"/>. The loser of the conflict SHALL return to <xref target="address-generation" format="title"/> and choose a different group ID.</t>
+      </section>
 
-        <t>mDNS implementations used with this protocol MUST coordinate with all applications using the same mDNS implementation, as well as with other mDNS implementations running on the same host. Such coordination ensures that conflicts arising from independently generated, identical group IDs are detected during the probing phase, allowing the affected applications to select alternate group IDs. Note that coordination between mDNS implementations running on the same host tends to happen naturally if transmitted multicast packets are looped back into the receive pipeline.</t>
+      <section title="Announcing and Responding">
+        <t>If the probing algorithm started in <xref target="probing" format="title"/> completes without any conflict, then the application SHALL announce the PTR record according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.3"/> and SHALL respond to queries for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="6"/>.</t>
       </section>
 
       <section title="Transmitting">
@@ -137,18 +145,18 @@
       </section>
 
       <section title="Conflict Detection">
-        <t>If the continuous query started in <xref target="probing-and-announcing"/> detects a conflict at any time, then the application SHALL stop transmitting that multicast stream and restart the process, selecting a different group ID. As before, this new group ID is also retained in persistent storage, overwriting any group ID previously saved for this multicast stream.</t>
+        <t>The application SHALL start a continuous query for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="5.2"/>. This helps detect a conflict in the event of a network partition and repair (see <xref target="collision-detection-after-partition-repair" format="title"/>). If a conflict is detected at any time, then the application SHALL stop transmitting that multicast stream and return to <xref target="address-generation" format="title"/>, choosing a new group ID. As before, this new group ID is also retained in persistent storage, overwriting any group ID previously saved for this multicast stream.</t>
 
         <t>The host network stack may optionally monitor the network for traffic that uses the same destination multicast Ethernet address, but a different destination multicast IPv6 address. If this is detected, then the application SHALL respond the same as with a collision.</t>
       </section>
+    </section>
 
-      <section title="Veto Records">
-        <t>Veto records are used to address collisions that occur in the network infrastructure (for example, the address table in a switch is discussed in <xref target="RFC10019" sectionFormat="comma" section="2"/>).</t>
+    <section title="Veto Records">
+      <t>Veto records are used to address collisions that occur in the network infrastructure (for example, the address table in a switch is discussed in <xref target="RFC10019" sectionFormat="comma" section="2"/>).</t>
 
-        <t>When a network infrastructure component detects a collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name and the <tt>PTRDNAME</tt> field set to the string <tt>"veto"</tt>, formatted as a DNS label. The veto record is published without probing.</t>
+      <t>When a network infrastructure component detects a collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name and the <tt>PTRDNAME</tt> field set to the string <tt>"veto"</tt>, formatted as a DNS label. The veto record is published without probing.</t>
 
-        <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future.</t>
-      </section>
+      <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future.</t>
     </section>
 
     <section title="Use on Networks with Multiple Subnets" anchor="scopes">
