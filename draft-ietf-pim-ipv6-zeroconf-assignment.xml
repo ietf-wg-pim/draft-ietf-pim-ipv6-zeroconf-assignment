@@ -94,20 +94,24 @@
 
       <t>The process an application uses from initialization to transmitting a multicast stream is divided into a series of steps, outlined below:</t>
 
+      <section title="Group ID Selection" anchor="group-id-selection">
+        <t>When an application is preparing to transmit a multicast stream, it begins by selecting an IPv6 multicast group ID.</t>
+
+        <t>If the application is either 1) transmitting a multicast stream for the first time or 2) responding to an address collision, then the application SHALL select a random multicast group ID value from the range <tt>0x90000000-0x9FFFFFFF</tt>. IANA is REQUESTED to assign this range from the "Dynamic Multicast Group IDs" registry (see <xref target="iana" format="title"/>).</t>
+
+        <t>If the application has previously transmitted the multicast stream, then the selected multicast group ID should have been retained in persistent storage (see <xref target="optimization" format="title"/>). The application SHALL proceed using the stored value.</t>
+      </section>
+
       <section title="Address Generation" anchor="address-generation">
-        <t>When an application is preparing to transmit a multicast stream, it SHALL begin by generating three multicast identifiers:</t>
+        <t>Once the IPv6 multicast group ID has been selected, then application SHALL use this to generate two multicast addresses:</t>
         <ol>
-          <li>
-            <t>Multicast Group ID</t>
-            <t>The first identifier is a multicast group ID randomly selected from the range <tt>0x90000000-0x9FFFFFFF</tt>. IANA is REQUESTED to assign this range from the "Dynamic Multicast Group IDs" registry (see <xref target="iana" format="title"/>).</t>
-          </li>
           <li>
             <t>IPv6 Multicast Address</t>
             <t>This is a link-scoped IPv6 multicast address, calculated by combining the multicast group ID with the Interface Identifier (IID) of the intended source address for the multicast stream, according to the format given in <xref target="RFC4489" sectionFormat="comma" section="3"/>.</t>
           </li>
           <li>
             <t>Multicast Ethernet Address</t>
-            <t>The final address is the corresponding multicast Ethernet address that will be used to transmit the data. This is calculated from the IPv6 multicast address, as described in <xref target="RFC2464" sectionFormat="comma" section="7"/>.</t>
+            <t>This is the corresponding multicast Ethernet address that will be used to transmit the data. It is calculated from the IPv6 multicast address, as described in <xref target="RFC2464" sectionFormat="comma" section="7"/>.</t>
           </li>
         </ol>
 
@@ -131,7 +135,7 @@
       <section title="Probing" anchor="probing">
         <t>After the PTR record is constructed, the application SHALL use the mDNS probing algorithm described in <xref target="RFC6762" sectionFormat="comma" section="8.1"/> to probe for a PTR record with the same name.</t>
 
-        <t>Due to the large range of values for group IDs, it is unlikely that two applications would randomly choose the same group ID and begin probing at the same time. However, in that event, the conflict SHALL be resolved according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.2"/>. The loser of the conflict SHALL return to <xref target="address-generation" format="title"/> and choose a different group ID.</t>
+        <t>Due to the large range of values for group IDs, it is unlikely that two applications would randomly choose the same group ID and begin probing at the same time. However, in that event, the conflict SHALL be resolved according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.2"/>. The loser of the conflict SHALL return to <xref target="group-id-selection" format="title"/> and choose a different group ID.</t>
       </section>
 
       <section title="Announcing and Responding">
@@ -139,7 +143,7 @@
       </section>
 
       <section title="Conflict Detection">
-        <t>The application SHALL start a continuous query for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="5.2"/>. This helps detect a conflict in the event of a network partition and repair (see <xref target="collision-detection-after-partition-repair" format="title"/>). If a conflict is detected at any time, then the application SHALL stop transmitting that multicast stream and return to <xref target="address-generation" format="title"/>, choosing a new group ID. As before, this new group ID is also retained in persistent storage, overwriting any group ID previously saved for this multicast stream.</t>
+        <t>The application SHALL start a continuous query for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="5.2"/>. This helps detect a conflict in the event of a network partition and repair (see <xref target="collision-detection-after-partition-repair" format="title"/>). If a conflict is detected at any time, then the application SHALL stop transmitting that multicast stream and return to <xref target="group-id-selection" format="title"/>, choosing a new group ID. As before, this new group ID is also retained in persistent storage, overwriting any group ID previously saved for this multicast stream.</t>
 
         <t>The host network stack may optionally monitor the network for traffic that uses the same destination multicast Ethernet address, but a different destination multicast IPv6 address. If this is detected, then the application SHALL respond the same as with a collision.</t>
       </section>
@@ -148,8 +152,10 @@
         <t>Once the PTR record is advertised and the continuous query started, the host MAY then begin transmitting multicast data using the multicast addresses from <xref target="address-generation" format="title"/>.</t>
       </section>
 
-      <section title="Optimization">
+      <section title="Optimization" anchor="optimization">
         <t>The application SHALL retain the group ID value in persistent storage and use it the next time the multicast stream is transmitted. This allows the network to quickly settle on a configuration that will never have another collision as long as the network is unchanged.</t>
+
+        <t>Note that retaining the value does not permit the application to skip any of the preceding steps. This is consistent with <xref target="RFC6762" sectionFormat="comma" section="10.2"/> and allows the application to recover from any network changes that may have occurred when it was offline.</t>
       </section>
 
       <section title="Defending">
