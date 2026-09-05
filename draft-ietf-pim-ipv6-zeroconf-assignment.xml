@@ -77,6 +77,8 @@
 
       <t>As mentioned in <xref target="RFC6762" sectionFormat="comma" section="21"/>, mDNS is an algorithm that assumes cooperating participants. Due to its reliance on mDNS, this assumption applies to the protocol described in this document as well.</t>
 
+      <t>The protocol uses implicit availability: if an application does not receive any indication that an address is in use, then it assumes that the address is available for its own use. Because this coordination occurs using mDNS, any filtering of mDNS traffic by the host or network would prevent applications from coordinating use of multicast addresses. This may result in address collisions.</t>
+
       <section anchor="requirements">
         <name>Requirements Language</name>
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/> when, and only when, they appear in all capitals, as shown here.</t>
@@ -242,6 +244,8 @@
 
     <section title="Security Considerations" anchor="security">
       <t>As with mDNS itself, this protocol only works in environments where all hosts are cooperating. A bad actor could prevent an application from being able to use this protocol to allocate a multicast address. In turn, this would prevent the application from being able to transmit its multicast stream, denying service to the multicast group.</t>
+
+      <t>The protocol's use of implicit availability means that a bad actor that is able to filter mDNS traffic could neutralize the ability of applications to use mDNS to prevent collisions. In most networks, the probability of a collision is already so low that this does not result in a practical way to attack the network.</t>
     </section>
   </middle>
 
