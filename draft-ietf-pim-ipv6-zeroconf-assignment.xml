@@ -100,6 +100,8 @@
         <t>If the application is either 1) transmitting a multicast stream for the first time or 2) responding to an address collision, then the application SHALL select a random multicast group ID value from the range <tt>0x90000000-0x9FFFFFFF</tt>. IANA is REQUESTED to assign this range from the "Dynamic Multicast Group IDs" registry (see <xref target="iana" format="title"/>).</t>
 
         <t>If the application has previously transmitted the multicast stream, then the selected multicast group ID should have been retained in persistent storage (see <xref target="optimization" format="title"/>). The application SHALL proceed using the stored value.</t>
+
+        <t>Note that the range of possible group ID values means that the probability that another application has chosen the same group ID is (n / 2<sup>28</sup>), where n is the number of applications on the network.</t>
       </section>
 
       <section title="Address Generation" anchor="address-generation">
