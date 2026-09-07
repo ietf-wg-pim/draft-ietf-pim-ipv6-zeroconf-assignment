@@ -233,7 +233,7 @@
           <li>Caching DNS servers SHOULD recognize these names as being used exclusively with mDNS, SHOULD NOT attempt to look up resource records associated with these names, and SHOULD respond to any query with NXDOMAIN.</li>
           <li>Authoritative DNS servers SHOULD recognize these names as being used exclusively with mDNS and SHOULD respond to any query with NXDOMAIN.</li>
           <li>DNS server operators MUST NOT configure an authoritative DNS server to answer queries for these names.</li>
-          <li>DNS Registries/Registrars MUST NOT register 9.3.3.3.3.eth-addr.arpa names.</li>
+          <li>DNS Registries/Registrars MUST NOT register <tt>"9.3.3.3.3.eth-addr.arpa"</tt> names.</li>
         </ol>
       </section>
     </section>
