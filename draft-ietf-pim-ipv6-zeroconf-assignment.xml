@@ -132,6 +132,8 @@
         <t>Once the domain name is assembled, the application SHALL construct a unique PTR record using that domain name. The <tt>PTRDNAME</tt> field of this record SHALL consist of a unique application identifier, in the form of one or more DNS labels, followed by the device's host name (for example, "application.example.local."). Integrating a unique identifier in this manner allows for multiple applications to be on the same host.</t>
 
         <t>Note that A/AAAA records may also be published for this same host name (for example, "example.local."), though this is not a requirement for this design.</t>
+
+        <t>To allow for the creation of veto records (see <xref target="veto-records" format="title"/>), first DNS label of the application identifier SHALL NOT exceed 58 octets in length. This reflects the 63-byte limit specified in <xref target="RFC1035" sectionFormat="comma" section="2.3.4"/> while also reserving space for a 5-byte suffix.</t>
       </section>
 
       <section title="Probing" anchor="probing">
@@ -165,10 +167,12 @@
       </section>
     </section>
 
-    <section title="Veto Records">
+    <section title="Veto Records" anchor="veto-records">
       <t>Veto records are used to address collisions that occur in the network infrastructure (for example, the address table in a switch is discussed in <xref target="RFC10019" sectionFormat="comma" section="2"/>).</t>
 
-      <t>When a network infrastructure component detects a collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name and the <tt>PTRDNAME</tt> field set to the string <tt>"veto"</tt>, formatted as a DNS label. The veto record is published without probing.</t>
+      <t>When a network infrastructure component detects a collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name. The veto record's <tt>PTRDNAME</tt> field is created by appending the string "-veto" to the first DNS label that appears in the <tt>PTRDNAME</tt> field of the PTR record that caused the address collision (for example, "application-veto"). This technique results in a veto PTR record that is always lexicographically later than the PTR record from the application (specifically, the first DNS label is always longer, so the first byte of the <tt>RDATA</tt>, which contains the length, always contains a larger value). In turn, this causes the veto record to always win the conflict resolution described in <xref target="RFC6762" sectionFormat="comma" section="9"/>.</t>
+
+      <t>Network infrastructure components SHALL publish veto records without probing.</t>
 
       <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future. As such, it is unnecessary to store vetoes to persistent storage. Veto records may be deleted as soon as the conflict is resolved.</t>
     </section>
@@ -272,6 +276,7 @@
 
   <back>
     <references title="Normative References">
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1035.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2464.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3306.xml"/>
