@@ -174,7 +174,9 @@
 
       <t>Network infrastructure components SHALL publish veto records without probing.</t>
 
-      <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future. As such, it is unnecessary to store vetoes to persistent storage. Veto records may be deleted as soon as the conflict is resolved.</t>
+      <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future. As such, it is unnecessary to store vetoes to persistent storage.</t>
+
+      <t>If an application transmitting a veto record determines that the PTR record for the address causing the conflict has become invalid (either due to receiving a goodbye packet or to record expiry), then it SHALL query the network for the PTR record. If the application does not receive a query response containing the PTR record after 5 seconds, then the application SHALL delay a random amount of time in the range 20-120 ms and then send a goodbye packet that invalidates the veto record.</t>
     </section>
 
     <section title="Use on Networks with Multiple Subnets" anchor="scopes">
