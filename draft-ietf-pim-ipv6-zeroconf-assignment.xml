@@ -105,7 +105,7 @@
       </section>
 
       <section title="Address Generation" anchor="address-generation">
-        <t>Once the IPv6 multicast group ID has been selected, then application SHALL use this to generate two multicast addresses:</t>
+        <t>Once the IPv6 multicast group ID has been selected, the application SHALL use this to generate two multicast addresses:</t>
         <ol>
           <li>
             <t>IPv6 Multicast Address</t>
