@@ -182,7 +182,7 @@
     <section title="Use on Networks with Multiple Subnets" anchor="scopes">
       <t>The protocol can be extended across multiple subnets if PTR records are distributed between subnets (for example, by using an mDNS reflector). Note that the stream MUST use a unicast-prefix based IPv6 multicast address (<xref target="RFC3306"/>), as the link-scoped IPv6 multicast address used above is scoped to the local link.</t>
 
-      <t>The protocol's reliance on cooperating hosts (see <xref target="security"/>) makes it unsuited for use on the global Internet. <xref target="RFC8815"/> recommends Source-Specific Multicast in this environment.</t>
+      <t>The protocol's reliance on cooperating hosts (see <xref target="security" format="title"/>) makes it unsuited for use on the global Internet. <xref target="RFC8815"/> recommends Source-Specific Multicast in this environment.</t>
     </section>
 
     <section title="Evaluation of Solution">
@@ -196,13 +196,13 @@
         <li>Single-Subnet Operation: The protocol supports operation within a single IPv6 subnet.</li>
         <li>No External Connectivity: The protocol does not require Internet access or connectivity to external infrastructure.</li>
         <li>Supports Multiple Host Applications: Multiple applications on the same host are supported by 1) incorporating a unique application identifier into the PTR record's <tt>PTRDNAME</tt> field and by 2) requiring the mDNS implementation(s) on a host to facilitate interaction between those applications.</li>
-        <li>Collision Detection and Resolution: The protocol includes a mechanism to detect and resolve multicast address collisions at both the network and link layers. See <xref target="collision-detection-after-partition-repair"/> for additional discussion about detecting and resolving collisions after a network partition is repaired.</li>
+        <li>Collision Detection and Resolution: The protocol includes a mechanism to detect and resolve multicast address collisions at both the network and link layers. See <xref target="collision-detection-after-partition-repair" format="title"/> for additional discussion about detecting and resolving collisions after a network partition is repaired.</li>
       </ol>
 
       <t>The following is an analysis of how this protocol satisfies the desirable characteristics listed in <xref target="RFC10019"/>:</t>
 
       <ol type="[CONS-%d]" indent="10">
-        <li>Multi-Subnet Support: The protocol can operate across multiple subnets (see <xref target="scopes"/>).</li>
+        <li>Multi-Subnet Support: The protocol can operate across multiple subnets (see <xref target="scopes" format="title"/>).</li>
         <li>Standards Compatibility: The protocol uses existing protocols without requiring any changes.</li>
         <li>Cross-Platform Availability: The protocol uses mDNS, which is implemented on many host platforms and operating systems.</li>
         <li>Minimal Dependency on Manufacturing Data: The protocol does not rely on pre-loaded configuration or device-specific manufacturing data.</li>
