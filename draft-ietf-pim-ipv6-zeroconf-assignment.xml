@@ -77,6 +77,8 @@
 
       <t>As mentioned in <xref target="RFC6762" sectionFormat="comma" section="21"/>, mDNS is an algorithm that assumes cooperating participants. Due to its reliance on mDNS, this assumption applies to the protocol described in this document as well.</t>
 
+      <t>Scalability of mDNS is an area of ongoing research and improvement (see <xref target="RFC7558"/>). The protocol described in this document is subject to similar constraints. Under normal operating conditions, mDNS traffic is expected to grow linearly with the number of multicast streams.</t>
+
       <t>The protocol uses implicit availability: if an application does not receive any indication that an address is in use, then it assumes that the address is available for its own use. Because this coordination occurs using mDNS, any filtering of mDNS traffic by the host or network would prevent applications from coordinating use of multicast addresses. This may result in address collisions.</t>
 
       <section anchor="requirements">
@@ -180,7 +182,9 @@
     </section>
 
     <section title="Use on Networks with Multiple Subnets" anchor="scopes">
-      <t>The protocol can be extended across multiple subnets if PTR records are distributed between subnets (for example, by using an mDNS reflector). Note that the stream MUST use a unicast-prefix based IPv6 multicast address (<xref target="RFC3306"/>), as the link-scoped IPv6 multicast address used above is scoped to the local link.</t>
+      <t>The protocol can be extended across multiple subnets if PTR records are distributed between subnets (for example, by using an mDNS reflector). Distributing mDNS records between subnets is an ongoing area of research and improvement (see <xref target="RFC7558"/>).</t>
+
+      <t>Multicast streams forwarded to other subnets MUST use a unicast-prefix based IPv6 multicast address (<xref target="RFC3306"/>), as the link-scoped IPv6 multicast address created in <xref target="address-generation" format="title"/> is scoped to the local link.</t>
 
       <t>The protocol's reliance on cooperating hosts (see <xref target="security" format="title"/>) makes it unsuited for use on the global Internet. <xref target="RFC8815"/> recommends Source-Specific Multicast in this environment.</t>
     </section>
@@ -291,6 +295,7 @@
     <references title="Informative References">
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3596.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6763.xml"/>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7558.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7942.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8815.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.10019.xml"/>
