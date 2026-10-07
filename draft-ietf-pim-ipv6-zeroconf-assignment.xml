@@ -94,7 +94,7 @@
 
       <t>mDNS implementations used with this protocol MUST coordinate with all applications using the same mDNS implementation, as well as with other mDNS implementations running on the same host. Such coordination ensures that conflicts arising from independently generated, identical group IDs are detected during the probing phase, allowing the affected applications to select alternate group IDs. Note that coordination between mDNS implementations running on the same host tends to happen naturally if transmitted multicast packets are looped back into the receive pipeline.</t>
 
-      <t>The process an application uses from initialization to transmitting a multicast stream is divided into a series of steps, outlined below:</t>
+      <t>The process an application uses from initialization to transmitting a multicast stream is divided into a series of steps, outlined below.</t>
 
       <section title="Group ID Selection" anchor="group-id-selection">
         <t>When an application is preparing to transmit a multicast stream, it begins by selecting an IPv6 multicast group ID.</t>
