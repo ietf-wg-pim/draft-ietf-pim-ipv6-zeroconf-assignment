@@ -261,6 +261,8 @@
     </section>
 
     <section title="Security Considerations" anchor="security">
+      <t>Due to its reliance on mDNS, the Security Considerations for mDNS (<xref target="RFC6762" sectionFormat="comma" section="21"/>) apply to this document as well.</t>
+
       <t>As with mDNS itself, this protocol only works in environments where all hosts are cooperating. There are two types of messages that a bad actor could use to attack the network:</t>
 
       <ol>
