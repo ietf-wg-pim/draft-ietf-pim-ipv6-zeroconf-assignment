@@ -127,7 +127,7 @@
 
         <t>Considering the example in Address Generation (<xref target="address-generation"/>), the resulting domain name would be <tt>"0.f.e.d.c.b.a.9.3.3.3.3.eth-addr.arpa"</tt>.</t>
 
-        <t>Note that this is similar to how DNS resource records used for reverse mapping IPv6 addresses are created (<xref target="RFC3596" sectionFormat="comma" section="2.5"/>). As such, this document reserves the domain <tt>"9.3.3.3.3.eth-addr.arpa"</tt> as a special-use domain in the "Special-Use Domain Names" registry (<xref target="iana"/>). The <tt>"3.3.3.3"</tt> component of this is taken from the <tt>33:33</tt> prefix used for mapping IPv6 multicast addresses to Ethernet multicast addresses and the <tt>"9"</tt> component indicates a multicast group ID in the range <tt>0x90000000-0x9FFFFFFF</tt>.</t>
+        <t>Note that this is similar to how DNS resource records used for reverse mapping IPv6 addresses are created (<xref target="RFC3596" sectionFormat="comma" section="2.5"/>). As such, this document reserves the domain <tt>"9.3.3.3.3.eth-addr.arpa."</tt> as a Special-Use Domain in the "Special-Use Domain Names" registry (<xref target="iana"/>). The <tt>"3.3.3.3"</tt> component of this is taken from the <tt>33:33</tt> prefix used for mapping IPv6 multicast addresses to multicast Ethernet addresses and the <tt>"9"</tt> component indicates a multicast group ID in the range <tt>0x90000000-0x9FFFFFFF</tt>.</t>
       </section>
 
       <section title="Record Construction">
@@ -227,14 +227,14 @@
     <section title="IANA Considerations" anchor="iana">
       <t>IANA should allocate a block of group IDs from the "Dynamic Multicast Group IDs" registry in the "IPv6 Multicast Address Space" registry group that was created by <xref target="RFC10028"/>. The range of this block should be <tt>0x90000000-0x9FFFFFFF</tt> and the description should be "Zero-Configuration Assignment of IPv6 Multicast Addresses Using mDNS".</t>
 
-      <t>IANA manages two registries that contain entries used for mapping addresses to names. This document introduces <tt>"eth-addr.arpa"</tt> for use in a similar capacity and so requests that it be added to these registries as well.</t>
+      <t>IANA manages two registries that contain entries used for mapping addresses to names. This document introduces <tt>"eth-addr.arpa"</tt> for use in a similar capacity and so requests that it is added to these registries as well.</t>
 
       <t>The domain <tt>"eth-addr.arpa"</tt> should be registered in the .arpa registry (https://www.iana.org/domains/arpa). The usage should be "For mapping Ethernet addresses to local domain names for Zero-Configuration Assignment of IPv6 Multicast Addresses" and the reference should be [I-D.draft-ietf-pim-ipv6-zeroconf-assignment].</t>
 
-      <t>The special-use domain <tt>"9.3.3.3.3.eth-addr.arpa."</tt> should be registered in the "Special-Use Domain Names" registry (https://www.iana.org/assignments/special-use-domain-names). This domain should not be delegated.</t>
+      <t>The Special-Use Domain <tt>"9.3.3.3.3.eth-addr.arpa."</tt> should be registered in the "Special-Use Domain Names" registry (https://www.iana.org/assignments/special-use-domain-names). This domain should not be delegated.</t>
 
       <section title="Domain Name Reservation Considerations">
-        <t><xref target="RFC6761" sectionFormat="comma" section="5"/> includes a list of questions that must be answered when reserving a new Special-Use Domain Name. The answers to these questions for the <tt>"9.3.3.3.3.eth-addr.arpa"</tt> Special-Use Domain, and any names falling within this domain, are as follows:</t>
+        <t><xref target="RFC6761" sectionFormat="comma" section="5"/> includes a list of questions that must be answered when reserving a new Special-Use Domain Name. The answers to these questions for the <tt>"9.3.3.3.3.eth-addr.arpa."</tt> Special-Use Domain, and any names falling within this domain, are as follows:</t>
 
         <ol>
           <li>Users are free to use these names as they would for any other reverse mapping domain. Because this mapping is closely-related to the local network, users SHOULD be aware that these names are likely to yield different results on different networks.</li>
@@ -243,7 +243,7 @@
           <li>Caching DNS servers SHOULD recognize these names as being used exclusively with mDNS, SHOULD NOT attempt to look up resource records associated with these names, and SHOULD respond to any query with NXDOMAIN.</li>
           <li>Authoritative DNS servers SHOULD recognize these names as being used exclusively with mDNS and SHOULD respond to any query with NXDOMAIN.</li>
           <li>DNS server operators MUST NOT configure an authoritative DNS server to answer queries for these names.</li>
-          <li>DNS Registries/Registrars MUST NOT register <tt>"9.3.3.3.3.eth-addr.arpa"</tt> names.</li>
+          <li>DNS Registries/Registrars MUST NOT register <tt>"9.3.3.3.3.eth-addr.arpa."</tt> names.</li>
         </ol>
       </section>
     </section>
