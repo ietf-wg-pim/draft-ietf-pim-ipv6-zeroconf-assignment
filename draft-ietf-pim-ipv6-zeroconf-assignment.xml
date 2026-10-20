@@ -144,7 +144,7 @@
         <t>Due to the large range of values for group IDs, it is unlikely that two applications would randomly choose the same group ID and begin probing at the same time. However, in that event, the conflict SHALL be resolved according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.2"/>. The loser of the conflict SHALL return to Group ID Selection (<xref target="group-id-selection"/>) and choose a different group ID.</t>
       </section>
 
-      <section title="Announcing and Responding">
+      <section title="Announcing and Responding" anchor="announcing">
         <t>If the probing algorithm started in Probing (<xref target="probing"/>) completes without any conflict, then the application SHALL announce the PTR record according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.3"/> and SHALL respond to queries for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="6"/>.</t>
       </section>
 
@@ -302,6 +302,108 @@
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8815.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.10019.xml"/>
     </references>
+
+    <section title="Example mDNS Messages">
+      <t>This section illustrates the DNS message fields for the mDNS messages described in this document. The examples depict individual messages, not complete exchanges. The mDNS message format is specified in <xref target="RFC6762" section="18"/>.</t>
+
+      <t>All domain names are fully qualified. The resource record TTL is 120 seconds in these examples; this value is illustrative. <tt>RDLENGTH</tt> values assume that <tt>PTRDNAME</tt> is encoded without DNS name compression. IPv6 and UDP headers are not shown.</t>
+
+      <t>The encoded <tt>QCLASS</tt> value includes the unicast-response (<tt>QU</tt>) bit. The encoded resource record <tt>CLASS</tt> value includes the cache-flush bit. These bits are shown separately from the underlying DNS class, IN.</t>
+
+      <t><xref target="fig-mdns-probe"/> shows a probe for the PTR record. The question uses <tt>QTYPE</tt> ANY, and the proposed record appears in the Authority Section. This corresponds with the operation described in <xref target="probing"/>.</t>
+
+      <figure anchor="fig-mdns-probe">
+        <name>PTR Record Probe</name>
+<artwork type="ascii-art"><![CDATA[
+Header:
+  ID:              0
+  Flags:           0x0000 (all flags clear)
+  QDCOUNT:         1
+  ANCOUNT:         0
+  NSCOUNT:         1
+  ARCOUNT:         0
+Question Section:
+  QNAME:           0.f.e.d.c.b.a.9.3.3.3.3.eth-addr.arpa.
+  QTYPE:           ANY (255)
+  QCLASS:          IN (1)
+  QU bit:          1
+  Encoded QCLASS:  0x8001
+Answer Section:
+  (empty)
+Authority Section:
+  NAME:            0.f.e.d.c.b.a.9.3.3.3.3.eth-addr.arpa.
+  TYPE:            PTR (12)
+  CLASS:           IN (1)
+  Cache-flush bit: 0
+  Encoded CLASS:   0x0001
+  TTL:             120
+  RDLENGTH:        27
+  PTRDNAME:        application.example.local.
+Additional Section:
+  (empty)
+]]></artwork>
+      </figure>
+
+      <t><xref target="fig-mdns-announcement"/> shows an announcement of the application PTR record following successful probing. The record appears in the Answer Section with the cache-flush bit set. This corresponds with the operation described in <xref target="announcing"/>.</t>
+
+      <figure anchor="fig-mdns-announcement">
+        <name>PTR Record Announcement</name>
+<artwork type="ascii-art"><![CDATA[
+Header:
+  ID:              0
+  Flags:           0x8400 (QR=1, AA=1; other flags clear)
+  QDCOUNT:         0
+  ANCOUNT:         1
+  NSCOUNT:         0
+  ARCOUNT:         0
+Question Section:
+  (empty)
+Answer Section:
+  NAME:            0.f.e.d.c.b.a.9.3.3.3.3.eth-addr.arpa.
+  TYPE:            PTR (12)
+  CLASS:           IN (1)
+  Cache-flush bit: 1
+  Encoded CLASS:   0x8001
+  TTL:             120
+  RDLENGTH:        27
+  PTRDNAME:        application.example.local.
+Authority Section:
+  (empty)
+Additional Section:
+  (empty)
+]]></artwork>
+      </figure>
+
+      <t><xref target="fig-mdns-veto-announcement"/> shows an announcement of the veto PTR record. The owner name is unchanged, but the <tt>PTRDNAME</tt> identifies the veto. This corresponds with the operation described in <xref target="veto-records"/>.</t>
+
+      <figure anchor="fig-mdns-veto-announcement">
+        <name>Veto PTR Record Announcement</name>
+<artwork type="ascii-art"><![CDATA[
+Header:
+  ID:              0
+  Flags:           0x8400 (QR=1, AA=1; other flags clear)
+  QDCOUNT:         0
+  ANCOUNT:         1
+  NSCOUNT:         0
+  ARCOUNT:         0
+Question Section:
+  (empty)
+Answer Section:
+  NAME:            0.f.e.d.c.b.a.9.3.3.3.3.eth-addr.arpa.
+  TYPE:            PTR (12)
+  CLASS:           IN (1)
+  Cache-flush bit: 1
+  Encoded CLASS:   0x8001
+  TTL:             120
+  RDLENGTH:        18
+  PTRDNAME:        application-veto.
+Authority Section:
+  (empty)
+Additional Section:
+  (empty)
+]]></artwork>
+      </figure>
+    </section>
 
     <section title="Acknowledgement" numbered="false">
       <t>Special thanks to the National Marine Electronics Association for their contributions in developing marine industry standards and their support for this work.</t>
