@@ -127,7 +127,7 @@
       </section>
 
       <section title="Record Construction">
-        <t>Once the domain name is assembled, the application SHALL construct a unique PTR record using that domain name. The <tt>PTRDNAME</tt> field of this record SHALL consist of a unique application identifier, in the form of one or more DNS labels, followed by the device’s currently claimed mDNS host name (for example, "application.example.local."). Integrating a unique identifier in this manner allows for multiple applications to be on the same host.</t>
+        <t>Once the domain name is assembled, the application SHALL construct a unique PTR record using that domain name. The <tt>PTRDNAME</tt> field of this record SHALL consist of a unique application identifier, in the form of one or more DNS labels, followed by the device's currently claimed mDNS host name (for example, "application.example.local."). Integrating a unique identifier in this manner allows for multiple applications to be on the same host.</t>
 
         <t>Note that A/AAAA records may also be published for this same host name (for example, "example.local."), though this is not a requirement for this design.</t>
 
