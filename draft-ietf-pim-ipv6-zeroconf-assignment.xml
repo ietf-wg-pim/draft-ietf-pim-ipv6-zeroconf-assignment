@@ -159,9 +159,11 @@
       </section>
 
       <section title="Optimization" anchor="optimization">
-        <t>The application SHALL retain the group ID value in persistent storage and use it the next time the multicast stream is transmitted. This allows the network to quickly settle on a configuration and reduces the likelihood of future collisions, as long as the network is unchanged.</t>
+        <t>The application SHALL retain the group ID value in persistent storage and use it the next time the multicast stream is transmitted. Any metadata associated with the stream, such as the network interface used to transmit, MUST also be stored.</t>
 
-        <t>Note that retaining the value does not permit the application to skip any of the preceding steps. This is consistent with <xref target="RFC6762" sectionFormat="comma" section="10.2"/> and allows the application to recover from any network changes that may have occurred when it was offline.</t>
+        <t>Keeping these values allows the network to quickly settle on a configuration and reduces the likelihood of future collisions, as long as the network is unchanged.</t>
+
+        <t>Note that retaining these values does not permit the application to skip any of the preceding steps. This is consistent with <xref target="RFC6762" sectionFormat="comma" section="10.2"/> and allows the application to recover from any network changes that may have occurred when it was offline.</t>
       </section>
 
       <section title="Defending">
