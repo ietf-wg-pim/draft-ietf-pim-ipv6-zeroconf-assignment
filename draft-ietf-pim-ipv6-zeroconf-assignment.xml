@@ -144,13 +144,13 @@
         <t>If the probing algorithm started in Probing (<xref target="probing"/>) completes without any conflict, then the application SHALL announce the PTR record according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.3"/> and SHALL respond to queries for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="6"/>.</t>
       </section>
 
-      <section title="Conflict Detection and Resolution">
+      <section title="Conflict Detection and Resolution" anchor="conflict">
         <t>The application SHALL start a continuous query for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="5.2"/>. This helps detect a conflict in the event of a network partition and repair (<xref target="collision-detection-after-partition-repair"/>). If a conflict is detected at any time, then the application SHALL resolve the conflict according to <xref target="RFC6762" sectionFormat="comma" section="9"/>. The losing application SHALL stop transmitting that multicast stream and return to Group ID Selection (<xref target="group-id-selection"/>), choosing a new group ID. As before, this new group ID is also retained in persistent storage, overwriting any group ID previously saved for this multicast stream.</t>
 
         <t>The host network stack may optionally monitor the network for traffic that uses the same destination multicast Ethernet address, but a different destination multicast IPv6 address. If this is detected, then the application SHALL stop transmitting that multicast stream and return to Group ID Selection (<xref target="group-id-selection"/>), choosing a new group ID. It is not necessary for both applications to select a new address, the goal is to have each multicast stream using a unique multicast address. No method to coordinate this between hosts is necessary and this protocol does not specify one.</t>
       </section>
 
-      <section title="Transmitting">
+      <section title="Transmitting" anchor="transmitting">
         <t>Once the PTR record is advertised and the continuous query started, the host MAY then begin transmitting multicast data using the multicast addresses from Address Generation (<xref target="address-generation"/>).</t>
       </section>
 
@@ -227,6 +227,22 @@
       <t>Scalability of mDNS is an area of ongoing research and improvement (<xref target="RFC7558"/>). The protocol described in this document is subject to similar constraints. Under normal operating conditions, mDNS traffic is expected to grow linearly with the number of multicast streams.</t>
 
       <t>The protocol uses implicit availability: if an application does not receive any indication that an address is in use, then it assumes that the address is available for its own use. Because this coordination occurs using mDNS, any filtering of mDNS traffic by the host or network would prevent applications from coordinating use of multicast addresses. This may result in address collisions.</t>
+
+      <t>Applications SHOULD keep timestamped logs of the following events to help troubleshoot issues with the protocol:</t>
+
+      <ul>
+        <li>Selected group ID (<xref target="group-id-selection"/>)</li>
+        <li>Generated address (<xref target="address-generation"/>)</li>
+        <li>Conflicts encountered during probing (<xref target="probing"/>)</li>
+        <li>Conflicts detected after announcing (<xref target="conflict"/>)</li>
+        <li>Multicast stream transmission (<xref target="transmitting"/>)</li>
+      </ul>
+
+      <t>Although <xref target="optimization"/> REQUIRES maintaining a persistent state, this functionality is nonetheless an optimization. The protocol is resilient to cases where none of the applications begin with persistent state (due to initial startup or clearing memory) and also to cases where all of the applications begin with the same persistent state (due to cloning a configuration). Although some of these cases do increase the likelihood that applications will experience a collision, the network will eventually reach a steady state. As such, operators have flexibility to determine when the expected behavior is to discard the persistent state and start over.</t>
+
+      <t>When a collision occurs, <xref target="conflict"/> REQUIRES applications to cease transmitting until a new address is acquired. This process results in a brief pause in the multicast stream.</t>
+
+      <t>This document does not specify a YANG model due to the decentralized, zero-configuration nature of the protocol.</t>
     </section>
 
     <section title="Security Considerations" anchor="security">
