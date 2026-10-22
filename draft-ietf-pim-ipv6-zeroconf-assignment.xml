@@ -107,7 +107,7 @@
         <ol>
           <li>
             <t>IPv6 Multicast Address</t>
-            <t>This is a link-scoped IPv6 multicast address, calculated by combining the multicast group ID with the Interface Identifier (IID) of the intended source address for the multicast stream, according to the format given in <xref target="RFC4489" sectionFormat="comma" section="3"/>.</t>
+            <t>This is a link-scoped IPv6 multicast address, calculated by combining the multicast group ID with the Interface Identifier (IID) of the link-local unicast address of the interface used to transmit the multicast stream, according to the format given in <xref target="RFC4489" sectionFormat="comma" section="3"/>.</t>
           </li>
           <li>
             <t>Multicast Ethernet Address</t>
