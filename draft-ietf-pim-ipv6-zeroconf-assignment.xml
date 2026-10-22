@@ -63,7 +63,7 @@
     <date day="8" month="October" year="2026"/>
 
     <abstract>
-      <t>This document describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses that are unique at the link-layer. Applications randomly assign multicast group IDs from a specified range and prevent collisions by using Multicast DNS (mDNS) to publish resource records under a new "eth-addr.arpa" domain. This protocol satisfies all of the criteria listed in RFC 10019.</t>
+      <t>This document describes a zero-configuration protocol for dynamically assigning IPv6 multicast addresses that are unique at the link-layer. Applications randomly assign multicast group IDs from a specified range and prevent collisions by using Multicast DNS (mDNS) to publish resource records under a new "eth-addr.arpa" domain. This protocol satisfies all of the requirements and most of the desired characteristics listed in RFC 10019.</t>
     </abstract>
   </front>
 
@@ -182,11 +182,9 @@
     </section>
 
     <section title="Use on Networks with Multiple Subnets" anchor="scopes">
-      <t>The protocol can be extended across multiple subnets if PTR records are distributed between subnets (for example, by using an mDNS reflector). Distributing mDNS records between subnets is an ongoing area of research and improvement (<xref target="RFC7558"/>).</t>
+      <t>The link-scoped IPv6 multicast address created in Address Generation (<xref target="address-generation"/>) cannot be forwarded beyond the local link. Forwarding a multicast stream to other subnets requires a unicast-prefix based IPv6 multicast address (<xref target="RFC3306"/>) and multicast routing; procedures for doing so are outside the scope of this document.</t>
 
-      <t>Multicast streams forwarded to other subnets MUST use a unicast-prefix based IPv6 multicast address (<xref target="RFC3306"/>), as the link-scoped IPv6 multicast address created in Address Generation (<xref target="address-generation"/>) is scoped to the local link.</t>
-
-      <t>The protocol's reliance on cooperating hosts (<xref target="security"/>) makes it unsuited for use on the global Internet. <xref target="RFC8815"/> recommends Source-Specific Multicast in this environment.</t>
+      <t>The protocol's reliance on cooperating hosts (<xref target="security"/>) will always make it unsuited for use on the global Internet. <xref target="RFC8815"/> recommends Source-Specific Multicast in this environment.</t>
     </section>
 
     <section title="IANA Considerations" anchor="iana">
@@ -410,7 +408,7 @@ Additional Section:
       <t>The following is an analysis of how this protocol satisfies the desirable characteristics listed in <xref target="RFC10019"/>:</t>
 
       <ol type="[CONS-%d]" indent="10">
-        <li>Multi-Subnet Support: The protocol can operate across multiple subnets (<xref target="scopes"/>).</li>
+        <li>Multi-Subnet Support: Operating the protocol across multiple subnets is outside the scope of this document (<xref target="scopes"/>).</li>
         <li>Standards Compatibility: The protocol uses existing protocols without requiring any changes.</li>
         <li>Cross-Platform Availability: The protocol uses mDNS, which is implemented on many host platforms and operating systems.</li>
         <li>Minimal Dependency on Manufacturing Data: The protocol does not rely on pre-loaded configuration or device-specific manufacturing data.</li>
