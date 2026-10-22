@@ -412,7 +412,7 @@ Additional Section:
         <li>Multi-Subnet Support: Operating the protocol across multiple subnets is outside the scope of this document (<xref target="scopes"/>).</li>
         <li>Standards Compatibility: The protocol uses existing protocols without requiring any changes.</li>
         <li>Cross-Platform Availability: The protocol uses mDNS, which is implemented on many host platforms and operating systems.</li>
-        <li>Minimal Dependency on Manufacturing Data: The protocol does not rely on pre-loaded configuration or device-specific manufacturing data.</li>
+        <li>Minimal Dependency on Manufacturing Data: The protocol does not rely on preloaded configuration or device-specific manufacturing data.</li>
         <li>Low Overhead: The protocol uses mDNS, which is designed to minimize the volume and frequency of network traffic generated during normal operation.</li>
         <li>Advertisement: This document does not prescribe any mechanism for advertising the IPv6 address used for the multicast stream. However, because the protocol already uses mDNS, a natural option for doing so would be to use DNS-SD (<xref target="RFC6763"/>) to advertise a "_udp" service and publish the address used for the multicast stream in a TXT record.</li>
         <li>Network Topology: Veto records ensure that the protocol works regardless of the underlying topology and adjacencies.</li>
