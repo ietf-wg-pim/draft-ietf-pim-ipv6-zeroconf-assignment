@@ -84,7 +84,7 @@
     </section>
 
     <section title="Procedure">
-      <t>This section describes how an application dynamically generates an IPv6 multicast address, uses mDNS to coordinate use of that address with other applications on the network, and begins transmitting its multicast stream.</t>
+      <t>This section specifies how an application dynamically generates an IPv6 multicast address, uses mDNS to coordinate use of that address with other applications on the network, and begins transmitting its multicast stream.</t>
 
       <t>Because this protocol is focused specifically on allocating IPv6 multicast addresses, applications MUST send and receive mDNS messages using the IPv6 multicast address for mDNS (ff02::fb). In order to be compatible with existing mDNS implementations that require IPv4, applications MAY also send and receive mDNS messages using the IPv4 multicast address for mDNS (224.0.0.251). These addresses are documented in <xref target="RFC6762" sectionFormat="comma" section="22"/>.</t>
 
