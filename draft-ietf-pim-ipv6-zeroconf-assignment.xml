@@ -132,6 +132,8 @@
         <t>Note that A/AAAA records may also be published for this same host name (for example, "example.local."), though this is not a requirement for this design.</t>
 
         <t>To allow for the creation of veto records (<xref target="veto-records"/>), the first DNS label of the application identifier SHALL NOT exceed 58 octets in length. This reflects the 63-byte limit specified in <xref target="RFC1035" sectionFormat="comma" section="2.3.4"/> while also reserving space for a 5-byte suffix.</t>
+
+        <t>Due to the presence of a host name in the <tt>PTRDNAME</tt>, the TTL value for the resource record SHOULD be 120. This aligns with guidance in <xref target="RFC6762" sectionFormat="comma" section="10"/>.</t>
       </section>
 
       <section title="Probing" anchor="probing">
