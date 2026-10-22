@@ -95,15 +95,15 @@
       <section title="Group ID Selection" anchor="group-id-selection">
         <t>When an application is preparing to transmit a multicast stream, it begins by selecting an IPv6 multicast group ID.</t>
 
-        <t>If the application is either 1) transmitting a multicast stream for the first time or 2) responding to an address collision, then the application SHALL select a random multicast group ID value from the range <tt>0x90000000-0x9FFFFFFF</tt>. <xref target="iana"/> details the request to assign this range from the "Dynamic Multicast Group IDs" registry.</t>
+        <t>If the application is either 1) transmitting a multicast stream for the first time or 2) responding to an address collision, then the application MUST select a random multicast group ID value from the range <tt>0x90000000-0x9FFFFFFF</tt>. <xref target="iana"/> details the request to assign this range from the "Dynamic Multicast Group IDs" registry.</t>
 
-        <t>If the application has previously transmitted the multicast stream, then the selected multicast group ID is already in persistent storage (Optimization, <xref target="optimization"/>). The application SHALL proceed using the stored value.</t>
+        <t>If the application has previously transmitted the multicast stream, then the selected multicast group ID is already in persistent storage (Optimization, <xref target="optimization"/>). The application MUST proceed using the stored value.</t>
 
         <t>Note that the range of possible group ID values means that the probability that another application has chosen the same group ID is (n / 2<sup>28</sup>), where n is the number of applications on the network.</t>
       </section>
 
       <section title="Address Generation" anchor="address-generation">
-        <t>Once the IPv6 multicast group ID has been selected, the application SHALL use this to generate two multicast addresses:</t>
+        <t>Once the IPv6 multicast group ID has been selected, the application MUST use this to generate two multicast addresses:</t>
         <ol>
           <li>
             <t>IPv6 Multicast Address</t>
@@ -119,7 +119,7 @@
       </section>
 
       <section title="Domain Name Assembly">
-        <t>Once the multicast Ethernet address is determined, the application SHALL use this to assemble a domain name by encoding nibbles from the multicast Ethernet address as a sequence of lower-case hexadecimal digits, separated by dots, in reverse order, and ending with the suffix <tt>".eth-addr.arpa"</tt> (a new domain in the .arpa registry).</t>
+        <t>Once the multicast Ethernet address is determined, the application MUST use this to assemble a domain name by encoding nibbles from the multicast Ethernet address as a sequence of lower-case hexadecimal digits, separated by dots, in reverse order, and ending with the suffix <tt>".eth-addr.arpa"</tt> (a new domain in the .arpa registry).</t>
 
         <t>Considering the example in Address Generation (<xref target="address-generation"/>), the resulting domain name would be <tt>"0.f.e.d.c.b.a.9.3.3.3.3.eth-addr.arpa"</tt>.</t>
 
@@ -127,29 +127,29 @@
       </section>
 
       <section title="Record Construction">
-        <t>Once the domain name is assembled, the application SHALL construct a unique PTR record using that domain name. The <tt>PTRDNAME</tt> field of this record SHALL consist of a unique application identifier, in the form of one or more DNS labels, followed by the device's currently claimed mDNS host name (for example, "application.example.local."). Integrating a unique identifier in this manner allows for multiple applications to be on the same host.</t>
+        <t>Once the domain name is assembled, the application MUST construct a unique PTR record using that domain name. The <tt>PTRDNAME</tt> field of this record MUST consist of a unique application identifier, in the form of one or more DNS labels, followed by the device's currently claimed mDNS host name (for example, "application.example.local."). Integrating a unique identifier in this manner allows for multiple applications to be on the same host.</t>
 
         <t>Note that A/AAAA records may also be published for this same host name (for example, "example.local."), though this is not a requirement for this design.</t>
 
-        <t>To allow for the creation of veto records (<xref target="veto-records"/>), the first DNS label of the application identifier SHALL NOT exceed 58 octets in length. This reflects the 63-octet limit specified in <xref target="RFC1035" sectionFormat="comma" section="2.3.4"/> while also reserving space for a 5-octet suffix.</t>
+        <t>To allow for the creation of veto records (<xref target="veto-records"/>), the first DNS label of the application identifier MUST NOT exceed 58 octets in length. This reflects the 63-octet limit specified in <xref target="RFC1035" sectionFormat="comma" section="2.3.4"/> while also reserving space for a 5-octet suffix.</t>
 
         <t>Due to the presence of a host name in the <tt>PTRDNAME</tt>, the TTL value for the resource record SHOULD be 120. This aligns with guidance in <xref target="RFC6762" sectionFormat="comma" section="10"/>.</t>
       </section>
 
       <section title="Probing" anchor="probing">
-        <t>After the PTR record is constructed, the application SHALL use the mDNS probing algorithm described in <xref target="RFC6762" sectionFormat="comma" section="8.1"/> to probe for a PTR record with the same name.</t>
+        <t>After the PTR record is constructed, the application MUST use the mDNS probing algorithm described in <xref target="RFC6762" sectionFormat="comma" section="8.1"/> to probe for a PTR record with the same name.</t>
 
-        <t>Due to the large range of values for group IDs, it is unlikely that two applications would randomly choose the same group ID and begin probing at the same time. However, in that event, the conflict SHALL be resolved according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.2"/>. The loser of the conflict SHALL return to Group ID Selection (<xref target="group-id-selection"/>) and choose a different group ID.</t>
+        <t>Due to the large range of values for group IDs, it is unlikely that two applications would randomly choose the same group ID and begin probing at the same time. However, in that event, the conflict MUST be resolved according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.2"/>. The loser of the conflict MUST return to Group ID Selection (<xref target="group-id-selection"/>) and choose a different group ID.</t>
       </section>
 
       <section title="Announcing and Responding" anchor="announcing">
-        <t>If the probing algorithm started in Probing (<xref target="probing"/>) completes without any conflict, then the application SHALL announce the PTR record according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.3"/> and SHALL respond to queries for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="6"/>.</t>
+        <t>If the probing algorithm started in Probing (<xref target="probing"/>) completes without any conflict, then the application MUST announce the PTR record according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.3"/> and MUST respond to queries for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="6"/>.</t>
       </section>
 
       <section title="Conflict Detection and Resolution" anchor="conflict">
-        <t>The application SHALL start a continuous query for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="5.2"/>. This helps detect a conflict in the event of a network partition and repair (<xref target="collision-detection-after-partition-repair"/>). If a conflict is detected at any time, then the application SHALL resolve the conflict according to <xref target="RFC6762" sectionFormat="comma" section="9"/>. The losing application SHALL stop transmitting that multicast stream and return to Group ID Selection (<xref target="group-id-selection"/>), choosing a new group ID. As before, this new group ID is also retained in persistent storage, overwriting any group ID previously saved for this multicast stream.</t>
+        <t>The application MUST start a continuous query for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="5.2"/>. This helps detect a conflict in the event of a network partition and repair (<xref target="collision-detection-after-partition-repair"/>). If a conflict is detected at any time, then the application MUST resolve the conflict according to <xref target="RFC6762" sectionFormat="comma" section="9"/>. The losing application MUST stop transmitting that multicast stream and return to Group ID Selection (<xref target="group-id-selection"/>), choosing a new group ID. As before, this new group ID is also retained in persistent storage, overwriting any group ID previously saved for this multicast stream.</t>
 
-        <t>The host network stack may monitor the network for traffic that uses the same destination multicast Ethernet address, but a different destination multicast IPv6 address. If this is detected, then the application SHALL stop transmitting that multicast stream and return to Group ID Selection (<xref target="group-id-selection"/>), choosing a new group ID. It is not necessary for both applications to select a new address, the goal is to have each multicast stream using a unique multicast address. No method to coordinate this between hosts is necessary and this protocol does not specify one.</t>
+        <t>The host network stack may monitor the network for traffic that uses the same destination multicast Ethernet address, but a different destination multicast IPv6 address. If this is detected, then the application MUST stop transmitting that multicast stream and return to Group ID Selection (<xref target="group-id-selection"/>), choosing a new group ID. It is not necessary for both applications to select a new address, the goal is to have each multicast stream using a unique multicast address. No method to coordinate this between hosts is necessary and this protocol does not specify one.</t>
       </section>
 
       <section title="Transmitting" anchor="transmitting">
@@ -157,7 +157,7 @@
       </section>
 
       <section title="Optimization" anchor="optimization">
-        <t>The application SHALL retain the group ID value in persistent storage and use it the next time the multicast stream is transmitted. Any metadata associated with the stream, such as the network interface used to transmit, MUST also be stored.</t>
+        <t>The application MUST retain the group ID value in persistent storage and use it the next time the multicast stream is transmitted. Any metadata associated with the stream, such as the network interface used to transmit, MUST also be stored.</t>
 
         <t>Keeping these values allows the network to quickly settle on a configuration and reduces the likelihood of future collisions, as long as the network is unchanged.</t>
 
@@ -165,7 +165,7 @@
       </section>
 
       <section title="Defending">
-        <t>The application SHALL defend the PTR record from probes as described in <xref target="RFC6762" sectionFormat="comma" section="6"/>.</t>
+        <t>The application MUST defend the PTR record from probes as described in <xref target="RFC6762" sectionFormat="comma" section="6"/>.</t>
       </section>
     </section>
 
@@ -174,11 +174,11 @@
 
       <t>When a managed switch detects a multicast address collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name. The veto record's <tt>PTRDNAME</tt> field is created by appending the string "-veto" to the first DNS label that appears in the <tt>PTRDNAME</tt> field of the PTR record that caused the address collision (for example, "application-veto"). This technique results in a veto PTR record that is always lexicographically later than the PTR record from the application (specifically, the first DNS label is always longer, so the first byte of the <tt>RDATA</tt>, which contains the length, always contains a larger value). In turn, this causes the veto record to always win the conflict resolution described in <xref target="RFC6762"/>, Sections <xref target="RFC6762" sectionFormat="bare" section="8.2"/> and <xref target="RFC6762" sectionFormat="bare" section="9"/>.</t>
 
-      <t>Managed switches SHALL publish veto records without probing.</t>
+      <t>Managed switches MUST publish veto records without probing.</t>
 
-      <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future. As such, it is unnecessary to store vetoes to persistent storage.</t>
+      <t>Applications MUST respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future. As such, it is unnecessary to store vetoes to persistent storage.</t>
 
-      <t>If a managed switch transmitting a veto record determines that the PTR record for the address causing the conflict has become invalid (either due to receiving a goodbye packet or to record expiry), then it SHALL query the network for the PTR record. If the managed switch does not receive a query response containing the PTR record after 10 seconds (as per <xref target="RFC6762" sectionFormat="comma" section="10.4"/>), then the managed switch SHALL delay a random amount of time in the range 20-120 ms and then send a goodbye packet that invalidates the veto record.</t>
+      <t>If a managed switch transmitting a veto record determines that the PTR record for the address causing the conflict has become invalid (either due to receiving a goodbye packet or to record expiry), then it MUST query the network for the PTR record. If the managed switch does not receive a query response containing the PTR record after 10 seconds (as per <xref target="RFC6762" sectionFormat="comma" section="10.4"/>), then the managed switch MUST delay a random amount of time in the range 20-120 ms and then send a goodbye packet that invalidates the veto record.</t>
     </section>
 
     <section title="Use on Networks with Multiple Subnets" anchor="scopes">
