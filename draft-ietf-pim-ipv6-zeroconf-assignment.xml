@@ -263,7 +263,7 @@
 
       <t>Both message types would prevent the application from being able to transmit its multicast stream, denying service to the multicast group. Repeatedly forcing the application to attempt new addresses also increases network traffic.</t>
 
-      <t>The protocol's use of implicit availability means that a bad actor that is able to filter mDNS traffic could neutralize the ability of applications to use mDNS to prevent collisions. In most networks, the probability of a collision is already so low that this does not result in a practical way to attack the network.</t>
+      <t>The protocol's use of implicit availability means that a bad actor that is able to filter mDNS traffic could neutralize the ability of applications to use mDNS to prevent collisions. In most networks, the probability of a random collision is low. Where hosts cannot rule out non-cooperating participants, the protections prescribed in <xref target="RFC6762" sectionFormat="comma" section="21"/> apply.</t>
     </section>
   </middle>
 
