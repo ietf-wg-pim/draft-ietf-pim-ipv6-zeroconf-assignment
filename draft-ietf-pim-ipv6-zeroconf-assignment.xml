@@ -170,15 +170,15 @@
     </section>
 
     <section title="Veto Records" anchor="veto-records">
-      <t>Veto records are used to address collisions that occur in the network infrastructure (for example, the address table in a switch is discussed in <xref target="RFC10019" sectionFormat="comma" section="2"/>).</t>
+      <t>The network infrastructure may contain managed switches that maintain an internal multicast address table and use multicast snooping to intelligently direct multicast streams to interested receivers (<xref target="RFC4541"/>). The potential for address collisions in these types of managed switches is discussed in <xref target="RFC10019" sectionFormat="comma" section="2"/>. Veto records are used to resolve these address collisions.</t>
 
-      <t>When a network infrastructure component detects a collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name. The veto record's <tt>PTRDNAME</tt> field is created by appending the string "-veto" to the first DNS label that appears in the <tt>PTRDNAME</tt> field of the PTR record that caused the address collision (for example, "application-veto"). This technique results in a veto PTR record that is always lexicographically later than the PTR record from the application (specifically, the first DNS label is always longer, so the first byte of the <tt>RDATA</tt>, which contains the length, always contains a larger value). In turn, this causes the veto record to always win the conflict resolution described in <xref target="RFC6762" sectionFormat="comma" section="9"/>.</t>
+      <t>When a managed switch detects a multicast address collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name. The veto record's <tt>PTRDNAME</tt> field is created by appending the string "-veto" to the first DNS label that appears in the <tt>PTRDNAME</tt> field of the PTR record that caused the address collision (for example, "application-veto"). This technique results in a veto PTR record that is always lexicographically later than the PTR record from the application (specifically, the first DNS label is always longer, so the first byte of the <tt>RDATA</tt>, which contains the length, always contains a larger value). In turn, this causes the veto record to always win the conflict resolution described in <xref target="RFC6762" sectionFormat="comma" section="9"/>.</t>
 
-      <t>Network infrastructure components SHALL publish veto records without probing.</t>
+      <t>Managed switches SHALL publish veto records without probing.</t>
 
       <t>Applications SHALL respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future. As such, it is unnecessary to store vetoes to persistent storage.</t>
 
-      <t>If an application transmitting a veto record determines that the PTR record for the address causing the conflict has become invalid (either due to receiving a goodbye packet or to record expiry), then it SHALL query the network for the PTR record. If the application does not receive a query response containing the PTR record after 5 seconds, then the application SHALL delay a random amount of time in the range 20-120 ms and then send a goodbye packet that invalidates the veto record.</t>
+      <t>If a managed switch transmitting a veto record determines that the PTR record for the address causing the conflict has become invalid (either due to receiving a goodbye packet or to record expiry), then it SHALL query the network for the PTR record. If the managed switch does not receive a query response containing the PTR record after 10 seconds (as per <xref target="RFC6762" sectionFormat="comma" section="10.4"/>), then the managed switch SHALL delay a random amount of time in the range 20-120 ms and then send a goodbye packet that invalidates the veto record.</t>
     </section>
 
     <section title="Use on Networks with Multiple Subnets" anchor="scopes">
@@ -283,6 +283,7 @@
     </references>
     <references title="Informative References">
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3596.xml"/>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4541.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6763.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7558.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7942.xml"/>
