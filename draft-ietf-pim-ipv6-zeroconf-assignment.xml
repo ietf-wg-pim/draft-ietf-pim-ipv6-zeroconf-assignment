@@ -188,7 +188,7 @@
     </section>
 
     <section title="IANA Considerations" anchor="iana">
-      <t>IANA should allocate a block of group IDs from the "Dynamic Multicast Group IDs" registry in the "IPv6 Multicast Address Space" registry group that was created by <xref target="RFC10028"/>. The range of this block should be <tt>0x90000000-0x9FFFFFFF</tt> and the description should be "Zero-Configuration Assignment of IPv6 Multicast Addresses Using mDNS".</t>
+      <t>IANA should allocate a block of group IDs from the "Dynamic Multicast Group IDs" registry <xref target="REGISTRY"/> in the "IPv6 Multicast Address Space" registry group that was created by <xref target="RFC10028"/>. The range of this block should be <tt>0x90000000-0x9FFFFFFF</tt> and the description should be "Zero-Configuration Assignment of IPv6 Multicast Addresses Using mDNS".</t>
 
       <t>The domain <tt>"eth-addr.arpa"</tt> should be registered in the .arpa registry (https://www.iana.org/domains/arpa). The usage should be "For mapping Ethernet addresses to local domain names for Zero-Configuration Assignment of IPv6 Multicast Addresses" and the reference should be this document.</t>
 
@@ -288,6 +288,14 @@
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7942.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8815.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.10019.xml"/>
+      <reference anchor="REGISTRY" target="https://www.iana.org/assignments/ipv6-multicast-addresses#dynamic-multicast-group-ids">
+        <front>
+          <title>Dynamic Multicast Group IDs Registry</title>
+          <author>
+            <organization>Internet Assigned Numbers Authority</organization>
+          </author>
+        </front>
+      </reference>
     </references>
 
     <section title="Example mDNS Messages">
