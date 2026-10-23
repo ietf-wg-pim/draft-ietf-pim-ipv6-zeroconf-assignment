@@ -118,7 +118,7 @@
         <t>For example, consider a source address of <tt>fe80::a12:34ff:fe56:7890</tt>. If the selected group ID is <tt>9abc:def0</tt>, then the calculated IPv6 multicast address would be <tt>ff32:ff:a12:34ff:fe56:7890:9abc:def0</tt> and the multicast Ethernet address would be <tt>33:33:9A:BC:DE:F0</tt>.</t>
       </section>
 
-      <section title="Domain Name Assembly">
+      <section title="Domain Name Assembly" anchor="assembly">
         <t>Once the multicast Ethernet address is determined, the application MUST use this to assemble a domain name by encoding nibbles from the multicast Ethernet address as a sequence of lower-case hexadecimal digits, separated by dots, in reverse order, and ending with the suffix <tt>".eth-addr.arpa"</tt> (a new domain in the .arpa registry).</t>
 
         <t>Considering the example in Address Generation (<xref target="address-generation"/>), the resulting domain name would be <tt>"0.f.e.d.c.b.a.9.3.3.3.3.eth-addr.arpa"</tt>.</t>
@@ -126,10 +126,10 @@
         <t>Note that this is similar to how DNS resource records used for reverse mapping IPv6 addresses are created (<xref target="RFC3596" sectionFormat="comma" section="2.5"/>). As such, this document reserves the domain <tt>"9.3.3.3.3.eth-addr.arpa."</tt> as a Special-Use Domain in the "Special-Use Domain Names" registry (<xref target="iana"/>). The <tt>"3.3.3.3"</tt> component of this is taken from the <tt>33:33</tt> prefix used for mapping IPv6 multicast addresses to multicast Ethernet addresses and the <tt>"9"</tt> component indicates a multicast group ID in the range <tt>0x90000000-0x9FFFFFFF</tt>.</t>
       </section>
 
-      <section title="Record Construction">
+      <section title="Record Construction" anchor="construction">
         <t>Once the domain name is assembled, the application MUST construct a unique PTR record using that domain name. The <tt>PTRDNAME</tt> field of this record MUST consist of a unique application identifier, in the form of one or more DNS labels, followed by the device's currently claimed mDNS host name (for example, "application.example.local."). Integrating a unique identifier in this manner allows for multiple applications to be on the same host.</t>
 
-        <t>Note that A/AAAA records may also be published for this same host name (for example, "example.local."), though this is not a requirement for this design.</t>
+        <t>Note that the host will publish A/AAAA records for this same host name (for example, "example.local.") as part of its normal mDNS operation, though this is not a requirement for this design.</t>
 
         <t>To allow for the creation of veto records (<xref target="veto-records"/>), the first DNS label of the application identifier MUST NOT exceed 58 octets in length. This reflects the 63-octet limit specified in <xref target="RFC1035" sectionFormat="comma" section="2.3.4"/> while also reserving space for a 5-octet suffix.</t>
 
@@ -144,6 +144,8 @@
 
       <section title="Announcing and Responding" anchor="announcing">
         <t>If the probing algorithm started in Probing (<xref target="probing"/>) completes without any conflict, then the application MUST announce the PTR record according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.3"/> and MUST respond to queries for the PTR record according to <xref target="RFC6762" sectionFormat="comma" section="6"/>.</t>
+
+        <t>Because the PTR record was constructed with the host name in the <tt>PTRDNAME</tt> field (Record Construction, <xref target="construction"/>), if the host name changes due to a conflict, the host MUST announce an updated PTR record with the <tt>PTRDNAME</tt> field using the new host name. In accordance with the final paragraph of <xref target="RFC6762" sectionFormat="comma" section="8.1"/>, the host SHOULD skip Probing (<xref target="probing"/>) because it has already verified ownership of the domain name (Domain Name Assembly, <xref target="assembly"/>). This process maintains accurate state while avoiding unnecessary traffic on the network.</t>
       </section>
 
       <section title="Conflict Detection and Resolution" anchor="conflict">
