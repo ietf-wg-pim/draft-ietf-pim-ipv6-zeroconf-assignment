@@ -238,9 +238,9 @@
         <li>Multicast stream transmission (<xref target="transmitting"/>)</li>
       </ul>
 
-      <t>Although <xref target="optimization"/> REQUIRES maintaining a persistent state, this functionality is nonetheless an optimization. The protocol is resilient to cases where none of the applications begin with persistent state (due to initial startup or clearing memory) and also to cases where all of the applications begin with the same persistent state (due to cloning a configuration). Although some of these cases do increase the likelihood that applications will experience a collision, the network will eventually reach a steady state. As such, operators have flexibility to determine when the expected behavior is to discard the persistent state and start over.</t>
+      <t>Although <xref target="optimization"/> requires maintaining a persistent state, this functionality is nonetheless an optimization. The protocol is resilient to cases where none of the applications begin with persistent state (due to initial startup or clearing memory) and also to cases where all of the applications begin with the same persistent state (due to cloning a configuration). Although some of these cases do increase the likelihood that applications will experience a collision, the network will eventually reach a steady state. As such, operators have flexibility to determine when the expected behavior is to discard the persistent state and start over.</t>
 
-      <t>When a collision occurs, <xref target="conflict"/> REQUIRES applications to cease transmitting until a new address is acquired. This process results in a brief pause in the multicast stream.</t>
+      <t>When a collision occurs, <xref target="conflict"/> requires applications to cease transmitting until a new address is acquired. This process results in a brief pause in the multicast stream.</t>
 
       <t>This document does not specify a YANG model due to the decentralized, zero-configuration nature of the protocol.</t>
     </section>
