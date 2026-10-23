@@ -176,7 +176,7 @@
 
       <t>When a managed switch detects a multicast address collision it cannot resolve, it triggers a conflict with the application by publishing a veto record. A veto record is a unique PTR record using the string generated for the address as its name. The veto record's <tt>PTRDNAME</tt> field is created by appending the string "-veto" to the first DNS label that appears in the <tt>PTRDNAME</tt> field of the PTR record that caused the address collision (for example, "application-veto"). This technique results in a veto PTR record that is always lexicographically later than the PTR record from the application (specifically, the first DNS label is always longer, so the first byte of the <tt>RDATA</tt>, which contains the length, always contains a larger value). In turn, this causes the veto record to always win the conflict resolution described in <xref target="RFC6762"/>, Sections <xref target="RFC6762" sectionFormat="bare" section="8.2"/> and <xref target="RFC6762" sectionFormat="bare" section="9"/>.</t>
 
-      <t>Managed switches MUST publish veto records without probing.</t>
+      <t>Managed switches MUST publish veto records without probing. The TTL value for the veto record SHOULD be 120.</t>
 
       <t>Applications MUST respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future. As such, it is unnecessary to store vetoes to persistent storage.</t>
 
