@@ -83,7 +83,7 @@
       </section>
     </section>
 
-    <section title="Procedure">
+    <section title="Procedure" anchor="procedure">
       <t>This section specifies how an application dynamically generates an IPv6 multicast address, uses mDNS to coordinate use of that address with other applications on the network, and begins transmitting its multicast stream.</t>
 
       <t>Because this protocol is focused specifically on allocating IPv6 multicast addresses, applications MUST send and receive mDNS messages using the IPv6 multicast address for mDNS (ff02::fb). In order to be compatible with existing mDNS implementations that require IPv4, applications MAY also send and receive mDNS messages using the IPv4 multicast address for mDNS (224.0.0.251). These addresses are documented in <xref target="RFC6762" sectionFormat="comma" section="22"/>.</t>
@@ -181,6 +181,29 @@
       <t>Applications MUST respond to the conflict the same as to a collision, eventually resulting in a new group ID being acquired. As before, the application retains its new group ID in persistent storage, ensuring the same conflict is not repeated in the future. As such, it is unnecessary to store vetoes to persistent storage.</t>
 
       <t>If a managed switch transmitting a veto record determines that the PTR record for the address causing the conflict has become invalid (either due to receiving a goodbye packet or to record expiry), then it MUST query the network for the PTR record. If the managed switch does not receive a query response containing the PTR record after 10 seconds (as per <xref target="RFC6762" sectionFormat="comma" section="10.4"/>), then the managed switch MUST delay a random amount of time in the range 20-120 ms and then send a goodbye packet that invalidates the veto record.</t>
+
+      <section title="Managed Switches Without Veto Record Support" anchor="veto-not-supported">
+        <t>Operators deploying this protocol on networks containing managed switches that do not support veto records SHOULD determine how those switches handle and report collisions in their multicast address tables. Operators SHOULD monitor any available alarms, notifications, or log messages that indicate such collisions. An unresolved collision may prevent an affected multicast stream from reaching some or all intended receivers.</t>
+
+        <t>The appropriate level of monitoring depends on application availability requirements and the frequency of changes to multicast group assignments and network configuration. For deployments with stable multicast group assignments, operators may choose to concentrate monitoring during initial commissioning and after configuration changes.</t>
+
+        <t>To resolve the collision, operators MUST cause the application with the address collision to repeat the procedure in <xref target="procedure"/> with a new group ID.</t>
+
+        <t>An external tool could facilitate this process by transmitting a veto record for the conflicting multicast address. This could be automated if the switch provides sufficient machine-readable information to identify the affected address. The tool would perform the following steps:</t>
+
+        <ol>
+          <li>Construct the domain name corresponding to the affected Ethernet multicast address, as specified in <xref target="assembly"/></li>
+          <li>Issue an mDNS query for the PTR record with that name</li>
+          <li>Use the <tt>PTRDNAME</tt> field of the corresponding response to construct a veto record</li>
+          <li>Transmit the veto record according to the transmission procedure above</li>
+        </ol>
+
+        <t>If no corresponding PTR record is obtained, the tool cannot complete this procedure and should report the condition for operator investigation.</t>
+
+        <t>If no such tool is available, the operator could use an application-specific mechanism to clear the stored group ID and initiate group ID selection again.</t>
+
+        <t>Operators SHOULD verify that multicast delivery has been restored after the address change.</t>
+      </section>
     </section>
 
     <section title="Use on Networks with Multiple Subnets" anchor="scopes">
@@ -243,6 +266,8 @@
       <t>Although <xref target="optimization"/> requires maintaining a persistent state, this functionality is nonetheless an optimization. The protocol is resilient to cases where none of the applications begin with persistent state (due to initial startup or clearing memory) and also to cases where all of the applications begin with the same persistent state (due to cloning a configuration). Although some of these cases do increase the likelihood that applications will experience a collision, the network will eventually reach a steady state. As such, operators have flexibility to determine when the expected behavior is to discard the persistent state and start over.</t>
 
       <t>When a collision occurs, <xref target="conflict"/> requires applications to cease transmitting until a new address is acquired. This process results in a brief pause in the multicast stream.</t>
+
+      <t><xref target="veto-not-supported"/> contains useful information on deploying the protocol using managed switches that do not support transmitting veto records.</t>
 
       <t>This document does not specify a YANG model due to the decentralized, zero-configuration nature of the protocol.</t>
     </section>
