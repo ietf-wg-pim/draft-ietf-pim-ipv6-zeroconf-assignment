@@ -163,7 +163,7 @@
 
         <t>Keeping these values allows the network to quickly settle on a configuration and reduces the likelihood of future collisions, as long as the network is unchanged.</t>
 
-        <t>Note that retaining these values does not permit the application to skip any of the preceding steps. This is consistent with <xref target="RFC6762" sectionFormat="comma" section="10.2"/> and allows the application to recover from any network changes that may have occurred when it was offline.</t>
+        <t>Note that retaining these values does not permit the application to skip any of the preceding steps, but does modify the Group ID Selection process in <xref target="group-id-selection"/>. This is consistent with <xref target="RFC6762" sectionFormat="comma" section="10.2"/> and allows the application to recover from any network changes that may have occurred when it was offline.</t>
       </section>
 
       <section title="Defending">
