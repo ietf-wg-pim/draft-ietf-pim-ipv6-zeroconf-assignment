@@ -267,6 +267,8 @@
 
       <t>When a collision occurs, <xref target="conflict"/> requires applications to cease transmitting until a new address is acquired. This process results in a brief pause in the multicast stream.</t>
 
+      <t>Any rate limiting to the mDNS messages used in the protocol will delay detecting address conflicts and prolong negative effects resulting from the conflict, as described in <xref target="RFC10019" sectionFormat="comma" section="2"/>.</t>
+
       <t><xref target="veto-not-supported"/> contains useful information on deploying the protocol using managed switches that do not support transmitting veto records.</t>
 
       <t>Operators deploying the protocol onto a network running MADCAP <xref target="RFC2730"/> with IPv6 should consider <xref target="RFC10028" section="4"/> and determine if their MADCAP implementation has been updated or otherwise configured accordingly.</t>
