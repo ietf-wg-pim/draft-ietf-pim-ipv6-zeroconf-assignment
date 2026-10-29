@@ -139,6 +139,8 @@
       <section title="Probing" anchor="probing">
         <t>After the PTR record is constructed, the application MUST use the mDNS probing algorithm described in <xref target="RFC6762" sectionFormat="comma" section="8.1"/> to probe for a PTR record with the same name.</t>
 
+        <t>If multiple mDNS implementations are running on the same host, query messages sent to probe for the PTR record MUST NOT request a unicast response. In such an environment, a unicast response might not be delivered to the correct socket, which can prevent conflict detection. See <xref target="RFC6762" sectionFormat="comma" section="15.1"/>.</t>
+
         <t>Due to the large range of values for group IDs, it is unlikely that two applications would randomly choose the same group ID and begin probing at the same time. However, in that event, the conflict MUST be resolved according to the procedure in <xref target="RFC6762" sectionFormat="comma" section="8.2"/>. The loser of the conflict MUST return to Group ID Selection (<xref target="group-id-selection"/>) and choose a different group ID.</t>
       </section>
 
