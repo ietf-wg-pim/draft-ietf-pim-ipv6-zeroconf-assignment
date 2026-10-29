@@ -243,7 +243,7 @@
 
       <t>According to <xref target="RFC7942"/>, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature.  It is up to the individual working groups to use this information as they see fit".</t>
 
-      <t>A prototype for Linux using Avahi is available at <eref target="https://github.com/nkarstens/mdns-zeroconf-mcast/" brackets="angle"/>. The main program in this repository allocates a single IPv6 multicast address from a specified group ID. The repository also contains a README with instructions on how to simulate a network partition.</t>
+      <t>A prototype for Linux using Avahi is available at <eref target="https://github.com/nkarstens/mdns-zeroconf-mcast/" brackets="angle"/>. The main program in this repository allocates a single IPv6 multicast address from a specified group ID. It can also be used to automatically generate a veto record for the application at the given address, as described in <xref target="veto-not-supported"/>. The repository contains a README with instructions on how to simulate a network partition.</t>
 
       <t>This technology has been implemented in production in Garmin's GPSMAP 9000 series of marine multifunction displays.</t>
     </section>
